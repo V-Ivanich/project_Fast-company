@@ -7,17 +7,41 @@ const titleTable = [
 
 const Users = () => {
   const [users, setUsers] = useState(api.users.fetchAll())
-  const mykeys = users[0]
-  console.log(mykeys)
-  console.log(mykeys.name,mykeys._id);
-  console.log(mykeys.profession)
+
+  console.log(users)
+  // console.log(mykeys.name)
+  // console.log(mykeys.bookmark)
+  // console.log(mykeys.rate)
+  // console.log(mykeys.completedMeetings)
+  // console.log(mykeys.profession.name)
+
+  // const quli = ()=>{
+  //   mykeys.qualities.forEach(item => {
+  //     console.log(item.name, item.color)
+  //   })
+  // }
+  // quli()
 
 
   const elementTH =()=>{
     return (
-    titleTable.map((item) => (<th key={item} scope ="col">{item}</th>))
+    titleTable.map((item, index) => (<th key={index} scope ="col">{item}</th>))
     )
   }
+
+  const rowTable = () => {
+    return (
+    users.map((item, index) => (<tr key={index}><td key={item._id}>{item.name}</td></tr>))
+    )
+  }
+  const tableRow = () => {
+    return (
+    <>
+      {rowTable()}
+    </>
+    )
+  }
+
 
   const createTable = () => {
     return (
@@ -28,7 +52,11 @@ const Users = () => {
             {elementTH()}
           </tr>
         </thead>
+        <tbody>
+          {tableRow()}
+        </tbody>
       </table>
+
       </>
     )   
   }
