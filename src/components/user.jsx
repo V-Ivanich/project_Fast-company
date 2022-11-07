@@ -7,10 +7,15 @@ const titleTable = [
 
 const Users = () => {
   const [users, setUsers] = useState(api.users.fetchAll())
+  const mykeys = users[0]
+  console.log(mykeys)
+  console.log(mykeys.name,mykeys._id);
+  console.log(mykeys.profession)
+
 
   const elementTH =()=>{
     return (
-    titleTable.map((item) => (<th scope ="col">{item}</th>))
+    titleTable.map((item) => (<th key={item} scope ="col">{item}</th>))
     )
   }
 
