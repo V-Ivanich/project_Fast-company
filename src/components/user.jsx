@@ -1,19 +1,13 @@
 import React,{ useState } from "react";
 import api from '../api'
 
-const titleTable = [
-  'Имя','Качества','Профессия','Встреч,кол-во','Оценка'
-]
 
 const Users = () => {
   const [users, setUsers] = useState(api.users.fetchAll())
+  const [titleItems, setTitleItems] = useState(["Имя", "Качества", "Профессия","Встреч,кол-во","Оценка"]);
+  const [keyItems, setKeyItems] = useState(["name","qualities","profession","completedMeetings","rate","bookmark"])
 
   console.log(users)
-  // console.log(mykeys.name)
-  // console.log(mykeys.bookmark)
-  // console.log(mykeys.rate)
-  // console.log(mykeys.completedMeetings)
-  // console.log(mykeys.profession.name)
 
   // const quli = ()=>{
   //   mykeys.qualities.forEach(item => {
@@ -25,19 +19,37 @@ const Users = () => {
 
   const elementTH =()=>{
     return (
-    titleTable.map((item, index) => (<th key={index} scope ="col">{item}</th>))
+    titleItems.map((item, index) => (<th key={index} scope ="col">{item}</th>))
     )
   }
 
-  const rowTable = () => {
+
+
+  const rowTable = (index) => {
+    const items = users[index]
+    console.log(keyItems[0])
+    console.log(typeof items[keyItems[1]])
+
+    const buttonQualities = () => {
+      const setClassName = "btn m-4 btn-"
+      const elemQualitet = items.qualities
+      return (
+          elemQualitet.map(elem => <button key={elem} type="button" className={setClassName + elem.color}>{elem.name}</button>)
+        )
+    }
+    console.log(buttonQualities())
+
     return (
-    users.map((item, index) => (<tr key={index}><td key={item._id}>{item.name}</td></tr>))
+      <tr>
+        {buttonQualities()}
+        {/* {keyItems.map((itemKey) => (<td key={itemKey}>{keyItems}</td>))} */}
+      </tr>
     )
   }
   const tableRow = () => {
     return (
     <>
-      {rowTable()}
+      {rowTable(0)}
     </>
     )
   }
