@@ -5,11 +5,11 @@ import api from '../api'
 const Users = () => {
   const [users, setUsers] = useState(api.users.fetchAll())
   const [titleItems, setTitleItems] = useState(["Имя", "Качества", "Профессия","Встреч,кол-во","Оценка",""]);
-  const [keyItems, setKeyItems] = useState(["name","qualities","profession","completedMeetings","rate","bookmark"])
+  const [countUsers, setCountUsers] = useState(0)
 
 
   const aparty = () =>{
-    return <h3><span className="badge bg-primary mt-1 ms-1">12 человек на сундук мертвеца</span></h3>
+    return <h3><span className="badge bg-primary mt-1 ms-1">{countUsers} человек на сундук мертвеца</span></h3>
   }
 
   const rowTable = (index) => {
@@ -18,13 +18,14 @@ const Users = () => {
     const buttonQualities = () => {
       const setClassName = "badge m-1 bg-"
       const elemQualitet = items.qualities
+      setCountUsers(countUsers => countUsers + 1)
       return (
           elemQualitet.map(elem => <span key={elem._id} className={setClassName + elem.color}>{elem.name}</span>)
         )
     }
 
     return (
-      <tr className="text-center">
+      <tr>
         <td>{items.name}</td>
         <td>
           {buttonQualities()}
@@ -45,7 +46,7 @@ const Users = () => {
       <table className="table table-striped table-hover">
         <thead className="table-secondary">
           <tr>
-            {titleItems.map((item, index) => (<th key={index} className="text-center" scope ="col">{item}</th>))}
+            {titleItems.map((item, index) => (<th key={index} className="ms-4" scope ="col">{item}</th>))}
           </tr>
         </thead>
         <tbody>
@@ -56,7 +57,9 @@ const Users = () => {
     )   
   }
 
-  const handleDelete =(userId) => {} //*-- кандидаты на гулянку(tabl)
+  const handleDelete =(userId) => {
+    console.log('click')
+  } //*-- кандидаты на гулянку(tabl)
 
   const renderPhrase = (number) => {} //*-- кол-во на гулянку
 
