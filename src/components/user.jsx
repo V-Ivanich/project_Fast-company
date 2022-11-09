@@ -9,26 +9,26 @@ const Users = () => {
   const [textContents, setTextContent] = useState(" человек тусанет с тобой сегодня")
   const [messageAttribute, setMessageAttribute] = useState("badge mt-1 ms-1 bg-primary")
 
-const textMassage = () => { 
-  return (
+const textMassage = () => {
+  return ( countUsers ?
     <h3><span className={messageAttribute}>{countUsers} {textContents}</span></h3>
+    : <h3><span className={messageAttribute}>{textContents}</span></h3>
     )
   }
 
   const rowTable = (index) => {
     const items = users[index]
-
     return (
-      <tr key={items._id}>
-        <td>{items.name}</td>
+      <tr key={items._id} className = "align-baseline">
+        <th scope = "row">{items.name}</th>
         <td key={items.qualities._id}>
-          {items.qualities.map(elem => <span key={elem._id} className= {`badge m-1 bg-`+ elem.color}>{elem.name}</span>)}
+          {items.qualities.map(elem => <span key={elem._id} className= {`badge rounded-pill px-3 py-2 m-1 bg-`+ elem.color}>{elem.name}</span>)}
         </td>
         <td>{items.profession.name}</td>
         <td>{items.completedMeetings}</td>
         <td>{items.rate}</td>
         <td>
-          <button type="button" className="btn btn-danger" onClick={()=> handleDelete(items._id)}>delete</button>
+          <button type="button" className="btn btn-danger rounded-pill" onClick={()=> handleDelete(items._id)}>delete</button>
         </td>
       </tr>
     )
@@ -53,23 +53,25 @@ const textMassage = () => {
   }
 
   const handleDelete =(userId) => {
+    let activCount = countUsers
     setUsers(prevState => prevState.filter(user => user._id !== userId))
-    setCountUsers((prevState) => --prevState)
-    console.log(countUsers)
-    renderPhrase(countUsers)
+    activCount -= 1
+    setCountUsers(countUsers -1)
+    renderPhrase(activCount)
   }
 
   const renderPhrase = (number) => {
-    console.log('zashel')
-    if(users.length === 0) {
-      setTextContent((prevState) => prevState = "Никто не пойдет с тобой тусить")
-      setMessageAttribute((prevState) => prevState ="badge mt-1 ms-1 bg-danger")
-    }
+
     if((number >= 2 && number <= 4) || number === 22){
       setTextContent((prevState) => prevState= "человека тусанет с тобой сегодня")
     } else {
       setTextContent((prevState) => prevState = "человек тусанет с тобой сегодня")
     }
+    if(number === 0) {
+      setTextContent((prevState) => prevState = "Никто не пойдет с тобой тусить")
+      setMessageAttribute((prevState) => prevState ="badge mt-1 ms-1 bg-danger")
+    }
+    return
   }
 
   return (
