@@ -5,47 +5,42 @@ import api from '../api'
 const Users = () => {
   const [users, setUsers] = useState(api.users.fetchAll())
   const [titleItems, setTitleItems] = useState(["Имя", "Качества", "Профессия","Встреч,кол-во","Оценка",""]);
-  const [countUsers, setCountUsers] = useState(0)
+  const [countUsers, setCountUsers] = useState(users.length)
+  const [textContents, setTextContent] = useState(" человек тусанет с тобой сегодня")
+  const [messageAttribute, setMessageAttribute] = useState("badge mt-1 ms-1 bg-primary")
 
-
-  const aparty = () =>{
-    return <h3><span className="badge bg-primary mt-1 ms-1">{countUsers} человек на сундук мертвеца</span></h3>
+const textMassage = () => { 
+  return (
+    <h3><span className={messageAttribute}>{countUsers} {textContents}</span></h3>
+    )
   }
 
   const rowTable = (index) => {
     const items = users[index]
 
-    const buttonQualities = () => {
-      const setClassName = "badge m-1 bg-"
-      const elemQualitet = items.qualities
-      setCountUsers(countUsers => countUsers + 1)
-      return (
-          elemQualitet.map(elem => <span key={elem._id} className={setClassName + elem.color}>{elem.name}</span>)
-        )
-    }
-
     return (
-      <tr>
+      <tr key={items._id}>
         <td>{items.name}</td>
-        <td>
-          {buttonQualities()}
+        <td key={items.qualities._id}>
+          {items.qualities.map(elem => <span key={elem._id} className= {`badge m-1 bg-`+ elem.color}>{elem.name}</span>)}
         </td>
         <td>{items.profession.name}</td>
         <td>{items.completedMeetings}</td>
         <td>{items.rate}</td>
         <td>
-          <button type="button" className="btn btn-danger" onClick={handleDelete}>delete</button>
+          <button type="button" className="btn btn-danger" onClick={()=> handleDelete(items._id)}>delete</button>
         </td>
       </tr>
     )
   }
 
   const createTable = () => {
-    return (
+    if(users.length === 0) return false
+    return  (
       <>
       <table className="table table-striped table-hover">
         <thead className="table-secondary">
-          <tr>
+          <tr key={users._id}>
             {titleItems.map((item, index) => (<th key={index} className="ms-4" scope ="col">{item}</th>))}
           </tr>
         </thead>
@@ -54,21 +49,37 @@ const Users = () => {
         </tbody>
       </table>
       </>
-    )   
+    ) 
   }
 
   const handleDelete =(userId) => {
-    console.log('click')
-  } //*-- кандидаты на гулянку(tabl)
+    setUsers(prevState => prevState.filter(user => user._id !== userId))
+    setCountUsers((prevState) => --prevState)
+    console.log(countUsers)
+    renderPhrase(countUsers)
+  }
 
-  const renderPhrase = (number) => {} //*-- кол-во на гулянку
+  const renderPhrase = (number) => {
+    console.log('zashel')
+    if(users.length === 0) {
+      setTextContent((prevState) => prevState = "Никто не пойдет с тобой тусить")
+      setMessageAttribute((prevState) => prevState ="badge mt-1 ms-1 bg-danger")
+    }
+    if((number >= 2 && number <= 4) || number === 22){
+      setTextContent((prevState) => prevState= "человека тусанет с тобой сегодня")
+    } else {
+      setTextContent((prevState) => prevState = "человек тусанет с тобой сегодня")
+    }
+  }
 
   return (
       <>
-      {aparty()}
+      {textMassage()}
       {createTable()}
       </>
     )
 }
+
+
 
 export default Users
