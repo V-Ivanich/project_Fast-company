@@ -4,15 +4,15 @@ import api from '../api'
 
 const Users = () => {
   const [users, setUsers] = useState(api.users.fetchAll())
-  const [titleItems, setTitleItems] = useState(["Имя", "Качества", "Профессия","Встреч,кол-во","Оценка",""]);
+  const titleItems =["Имя", "Качества", "Профессия","Встреч,кол-во","Оценка",""]
   const [countUsers, setCountUsers] = useState(users.length)
   const [textContents, setTextContent] = useState(" человек тусанет с тобой сегодня")
   const [messageAttribute, setMessageAttribute] = useState("badge mt-1 ms-1 bg-primary")
 
 const textMassage = () => {
-  return ( countUsers ?
-    <h3><span className={messageAttribute}>{countUsers} {textContents}</span></h3>
-    : <h3><span className={messageAttribute}>{textContents}</span></h3>
+  let textStr = users.length ? users.length + ' ' + textContents : textContents
+  return (
+    <h3><span className={messageAttribute}>{textStr}</span></h3>
     )
   }
 
