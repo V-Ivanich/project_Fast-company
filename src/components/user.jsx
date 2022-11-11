@@ -1,23 +1,33 @@
 import React,{ useState } from "react";
 import api from '../api'
 
-
 const Users = () => {
   const [users, setUsers] = useState(api.users.fetchAll())
   const titleItems =["Имя", "Качества", "Профессия","Встреч,кол-во","Оценка",""]
 
-
-const textMassage = () => {
+  const textMassage = () => {
     return (
-      <h1 className={`badge rounded-pill mt-1 ms-1 px-2 py-2 bg-` + setAttribut()}>
+      <h1 className={`badge rounded-pill mt-1 ms-1 px-2 py-2 bg-` + (users.length > 0 ? 'primary': 'danger')}>
         {users.length !== 0 ? renderPhrase(users.length) : "Никто не пойдет с тобой тусить"}
       </h1>
     )
   }
 
+  const renderPhrase = (number) => {
+    let pattern = /^[2-4]{1}$|^.{0,}[2-4][2-4]$/
+
+    if(pattern.test(number)) return `${number} человека тусанет с тобой сегодня`
+    return `${number} человек тусанет с тобой сегодня`
+  }
+
+  const handleDelete =(userId) => {
+    setUsers(prevState => prevState.filter(user => user._id !== userId))
+  }
+
   const createTable = ()=> {
-    if(users.length === 0) return
     return (
+      <>
+      {users.length > 0 && (
       <table className="table table-striped table-hover">
       <thead className="table-secondary">
         <tr key={users._id}>
@@ -28,18 +38,21 @@ const textMassage = () => {
         {createTableBody()}
       </tbody>
       </table>
+      )}
+      </>
+      
     )
   }
   
-  const setAttribut = ()=> {
-    return (users.length ? 'primary': 'danger')
-  }
   const createTableBody = () => {
     return users.map((user) => (
         <tr key={user._id} className = "align-baseline">
           <th scope = "row">{user.name}</th>
           <td key={user.qualities._id}>
-            {user.qualities.map(elem => <span key={elem._id} className= {`badge rounded-pill px-3 py-2 m-1 bg-`+ elem.color}>{elem.name}</span>)}
+            {user.qualities.map(elem =>
+              <span key={elem._id} className= {`badge rounded-pill px-3 py-2 m-1 bg-`+ elem.color}>
+                {elem.name}
+              </span>)}
           </td>
           <td>{user.profession.name}</td>
           <td>{user.completedMeetings}</td>
@@ -56,20 +69,6 @@ const textMassage = () => {
         </tr>
       ))
   }
-  
-  const handleDelete =(userId) => {
-    setUsers(prevState => prevState.filter(user => user._id !== userId))
-  }
-
-  const renderPhrase = (number) => {
-    let pattern = /^[2-4]{1}$|^.{0,}[2-4][2-4]$/
-
-    if(pattern.test(number)){
-      return `${number} человека тусанет с тобой сегодня`
-    } else {
-      return `${number} человек тусанет с тобой сегодня`
-    }
-  }
 
   return (
       <>
@@ -78,7 +77,5 @@ const textMassage = () => {
       </>
     )
 }
-
-
 
 export default Users
