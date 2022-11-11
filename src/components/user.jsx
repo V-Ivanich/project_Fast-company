@@ -56,13 +56,11 @@ const textMassage = () => {
         </tr>
       ))
   }
-//!-----без стейта->!!!!!
+  
   const handleDelete =(userId) => {
     setUsers(prevState => prevState.filter(user => user._id !== userId))
-    console.log(users.length)
   }
 
-  //!----переделать без стейта->
   const renderPhrase = (number) => {
     let pattern = /^[2-4]{1}$|^.{0,}[2-4][2-4]$/
 
