@@ -35,7 +35,7 @@ const textMassage = () => {
   }
 
   const createTable = () => {
-    if(users.length === 0) return false
+    if(users.length === 0) return
     return  (
       <>
       <table className="table table-striped table-hover">
@@ -62,16 +62,16 @@ const textMassage = () => {
 
   const renderPhrase = (number) => {
     let pattern = /^[2-4]{1}$|^.{0,}[2-4][2-4]$/
-    console.log(pattern.test(5))
 
-    if(number === 0) {
-      setTextContent((prevState) => prevState = "Никто не пойдет с тобой тусить")
-      setMessageAttribute((prevState) => prevState ="badge mt-1 ms-1 bg-danger")
-    }
+
     if(pattern.test(number)){
       setTextContent((prevState) => prevState= "человека тусанет с тобой сегодня")
     } else {
       setTextContent((prevState) => prevState = "человек тусанет с тобой сегодня")
+    }
+    if(number === 0) {
+      setTextContent((prevState) => prevState = "Никто не пойдет с тобой тусить")
+      setMessageAttribute((prevState) => prevState ="badge mt-1 ms-1 bg-danger")
     }
     return
   }
