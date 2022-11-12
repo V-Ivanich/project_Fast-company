@@ -14,7 +14,7 @@ const Users = () => {
   }
 
   const renderPhrase = (number) => {
-    let pattern = /^[2-4]{1}$|^.{0,}[2-4][2-4]$/
+    let pattern = /^[2-4]{1}$|^.{0,}[2-4]$|^.{0,}[2-4][2-4]$/
 
     if(pattern.test(number)) return `${number} человека тусанет с тобой сегодня`
     return `${number} человек тусанет с тобой сегодня`
