@@ -1,8 +1,20 @@
+// import React from "react"
+// import Qualitie from "./qualitie"
+// import BookMark from "./bookMark"
+
+// const User =({})
+
+// export default User
+
+
 import React,{ useState } from "react";
 import api from '../api'
 
 const Users = () => {
-  const [users, setUsers] = useState(api.users.fetchAll())
+
+  const inicialState = api.users.fetchAll()
+  const [users, setUsers] = useState(inicialState)
+
   const titleItems =["Имя", "Качества", "Профессия","Встреч,кол-во","Оценка",""]
 
   const textMassage = () => {
