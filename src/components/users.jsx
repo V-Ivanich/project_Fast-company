@@ -2,16 +2,16 @@
 import React from "react"
 import User from './user'
 
-const Users =({users, ...props}) => {
-  console.log('modul-users',users)
+const Users =({ users,...props}) => {
+
   return (
-    // users.map((user) => (
+    <>
       <tr key={users._id} className = "align-baseline">
 
         <th scope = "row">{users.name}</th>
-
-        <td key={users.qualities._id}>
-            <User users={elem}/>
+        <User key={users._id} users={users} onBookMark={onBookMark}/>
+        {/* <td key={users._id}>
+            <User key={users._id} users={users}/>
         </td>
 
         <td>{users.profession.name}</td>
@@ -19,16 +19,21 @@ const Users =({users, ...props}) => {
         <td>{users.rate}</td>
 
         <td>
-          {/* <button
+        <i onClick={()=> props.onBookMark()} className="bi bi-hand-thumbs-down"></i>
+        </td> */}
+
+        <td>
+          <button
             type="button"
             className="btn btn-danger rounded-pill"
-            onClick={()=> props.onDelete(user._id)}
+            onClick={()=> props.onDelete(users._id)}
             >
             delete
-            </button> */}
+          </button>
         </td>
       </tr>
-    // )
+    </>
+  )
 }
 
 export default Users

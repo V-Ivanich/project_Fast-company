@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Users from './components/user'
+import Users from './components/users'
 import SearchStatus from './components/searchStatus'
 import API from './api'
 
@@ -9,7 +9,7 @@ const titleItems = [
   'Профессия',
   'Встреч,кол-во',
   'Оценка',
-  // 'Избранное',
+  'Избранное',
   '',
 ]
 
@@ -17,8 +17,15 @@ function App() {
   const inicialState = API.users.fetchAll()
   const [users, setUsers] = useState(inicialState)
 
+  let flagBookMark = false
+
   const handleDelete = userId => {
     setUsers(prevState => prevState.filter(user => user._id !== userId))
+  }
+
+  const handleClickBookMark = flag => {
+    console.log('flag')
+    return !flag
   }
 
   return (
@@ -38,7 +45,12 @@ function App() {
 
           <tbody>
             {users.map(user => (
-              <Users users={user} onDelete={handleDelete} />
+              <Users
+                key={user._id}
+                users={user}
+                onDelete={handleDelete}
+                onBookMark={handleClickBookMark}
+              />
             ))}
           </tbody>
         </table>
