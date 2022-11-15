@@ -8,7 +8,7 @@ const renderPhrase = (number) => {
 }
 
 const SearchStatus = ({length}) => {
-  console.log(length)
+
     return (
       <h1 className={`badge rounded-pill mt-1 ms-1 px-2 py-2 bg-` + (length > 0 ? 'primary': 'danger')}>
         {length !== 0 ? renderPhrase(length) : "Никто не пойдет с тобой тусить"}
