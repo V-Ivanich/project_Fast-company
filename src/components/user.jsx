@@ -4,9 +4,6 @@ import BookMark from "./bookMark"
 
 
 const User =({users,...props}) => {
-  console.log('id',users._id)
-  let mass = BookMark.checkedArray
-  console.log('massiv',mass)
 
   return (
     <>
@@ -21,13 +18,11 @@ const User =({users,...props}) => {
         <td>{users.rate}</td>
     
         <td>
-          <button onClick={()=> props.onBookMark(BookMark(users._id))}>
-            <i
-              className={`bi bi-hand-thumbs-${props.flag}`}>
-            </i>
-          </button>
+          <BookMark key={users._id}
+          onMark={props.onBookMark}
+          idItem={users._id}
+          flag={props.flag}/>
         </td>
-
   </>
     )
 }

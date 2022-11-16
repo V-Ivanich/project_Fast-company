@@ -16,17 +16,14 @@ const titleItems = [
 function App() {
   const inicialState = API.users.fetchAll()
   const [users, setUsers] = useState(inicialState)
-
-  let flagBookMark = 'down'
+  const [flagUse, setFlagUse] = useState('down')
 
   const handleDelete = userId => {
     setUsers(prevState => prevState.filter(user => user._id !== userId))
   }
 
   const handleClickBookMark = flag => {
-    console.log(flag)
-    flagBookMark = flag ? 'up-fill' : 'down'
-    setUsers(users)
+    setFlagUse(flag ? 'up-fill' : 'down')
   }
 
   return (
@@ -49,7 +46,7 @@ function App() {
               <Users
                 key={user._id}
                 users={user}
-                flag={flagBookMark}
+                flag={flagUse}
                 onDelete={handleDelete}
                 onBookMark={handleClickBookMark}
               />

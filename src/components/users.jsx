@@ -9,10 +9,12 @@ const Users =({ users,...props}) => {
       <tr key={users._id} className = "align-baseline">
 
         <th scope = "row">{users.name}</th>
-
-          <User key={users._id} users={users} onBookMark={props.onBookMark} flag={props.flag}/>
-
+          <User key={users._id}
+          users={users}
+          onBookMark={props.onBookMark}
+          flag={props.flag}/>
         <td>
+          
           <button
             type="button"
             className="btn btn-danger rounded-pill"

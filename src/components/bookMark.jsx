@@ -2,8 +2,7 @@ import React from "react";
 
 const checkedArray = {}
 
-const BookMark = ({idItem}) => {
-  console.log('go-go', idItem)
+const BookMark = ({...props}) => {
 
   const getSetMark =(idItem)=> {
     if(checkedArray.hasOwnProperty(idItem)){
@@ -11,13 +10,16 @@ const BookMark = ({idItem}) => {
     } else {
       checkedArray[idItem] = true
     }
-    console.log('mass', checkedArray)
     return checkedArray[idItem]
 
   }
 
   return (
-    getSetMark(idItem)
+    <button onClick={()=> props.onMark(getSetMark(props.idItem))}>
+    <i
+      className={`bi bi-hand-thumbs-${props.flag}`}>
+    </i>
+  </button>
     )
 }
 
