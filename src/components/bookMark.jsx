@@ -1,12 +1,24 @@
 import React from "react";
 
-const BookMark = ({status, ...rest}) => {
+const checkedArray = {}
+
+const BookMark = ({idItem}) => {
+  console.log('go-go', idItem)
+
+  const getSetMark =(idItem)=> {
+    if(checkedArray.hasOwnProperty(idItem)){
+      checkedArray[idItem] = !checkedArray[idItem]
+    } else {
+      checkedArray[idItem] = true
+    }
+    console.log('mass', checkedArray)
+    return checkedArray[idItem]
+
+  }
+
   return (
-    status ? 'bi bi-hand-thumbs-down': 'bi bi-hand-thumbs-up-fill'
+    getSetMark(idItem)
     )
 }
 
-// export default BookMark
-
-{/* <i class="bi bi-hand-thumbs-down"></i> */}
-{/* <i class="bi bi-hand-thumbs-up-fill"></i> */}
+export default BookMark

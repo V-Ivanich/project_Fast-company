@@ -9,18 +9,8 @@ const Users =({ users,...props}) => {
       <tr key={users._id} className = "align-baseline">
 
         <th scope = "row">{users.name}</th>
-        <User key={users._id} users={users} onBookMark={onBookMark}/>
-        {/* <td key={users._id}>
-            <User key={users._id} users={users}/>
-        </td>
 
-        <td>{users.profession.name}</td>
-        <td>{users.completedMeetings}</td>
-        <td>{users.rate}</td>
-
-        <td>
-        <i onClick={()=> props.onBookMark()} className="bi bi-hand-thumbs-down"></i>
-        </td> */}
+          <User key={users._id} users={users} onBookMark={props.onBookMark} flag={props.flag}/>
 
         <td>
           <button
@@ -31,6 +21,7 @@ const Users =({ users,...props}) => {
             delete
           </button>
         </td>
+
       </tr>
     </>
   )

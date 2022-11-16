@@ -17,15 +17,16 @@ function App() {
   const inicialState = API.users.fetchAll()
   const [users, setUsers] = useState(inicialState)
 
-  let flagBookMark = false
+  let flagBookMark = 'down'
 
   const handleDelete = userId => {
     setUsers(prevState => prevState.filter(user => user._id !== userId))
   }
 
   const handleClickBookMark = flag => {
-    console.log('flag')
-    return !flag
+    console.log(flag)
+    flagBookMark = flag ? 'up-fill' : 'down'
+    setUsers(users)
   }
 
   return (
@@ -48,6 +49,7 @@ function App() {
               <Users
                 key={user._id}
                 users={user}
+                flag={flagBookMark}
                 onDelete={handleDelete}
                 onBookMark={handleClickBookMark}
               />
