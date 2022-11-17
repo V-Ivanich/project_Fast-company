@@ -15,7 +15,9 @@ const BookMark = ({...props}) => {
   }
 
   return (
-    <button className="btn rounded-pill btn-light" onClick={()=> props.onMark(getSetMark(props.idItem))}>
+    <button
+      className="btn rounded-pill btn-light"
+      onClick={()=> props.onMark(getSetMark(props.idItem))}>
     <i
       className={`bi bi-hand-thumbs-${props.flag? 'up-fill': 'down'}`}>
     </i>

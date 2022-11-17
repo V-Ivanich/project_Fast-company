@@ -23,11 +23,11 @@ function App() {
   }
 
   const handleClickBookMark = idItem => {
-    const listItems = users.map(elem => {
-      if (elem._id === idItem) {
-        elem.bookmark = !elem.bookmark
+    const listItems = users.map(userItems => {
+      if (userItems._id === idItem) {
+        userItems.bookmark = !userItems.bookmark
       }
-      return elem
+      return userItems
     })
     setUsers(listItems)
   }
@@ -48,10 +48,10 @@ function App() {
           </thead>
 
           <tbody>
-            {users.map(user => (
+            {users.map(usersItem => (
               <Users
-                key={user._id}
-                users={user}
+                key={usersItem._id}
+                usersItems={usersItem}
                 onDelete={handleDelete}
                 onBookMark={handleClickBookMark}
               />
