@@ -10,14 +10,14 @@ const BookMark = ({...props}) => {
     } else {
       checkedArray[idItem] = true
     }
-    return checkedArray[idItem]
-
+    console.log(checkedArray)
+    return idItem
   }
 
   return (
-    <button onClick={()=> props.onMark(getSetMark(props.idItem))}>
+    <button className="btn rounded-pill btn-light" onClick={()=> props.onMark(getSetMark(props.idItem))}>
     <i
-      className={`bi bi-hand-thumbs-${props.flag}`}>
+      className={`bi bi-hand-thumbs-${props.flag? 'up-fill': 'down'}`}>
     </i>
   </button>
     )

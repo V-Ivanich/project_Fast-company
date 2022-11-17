@@ -21,7 +21,7 @@ const User =({users,...props}) => {
           <BookMark key={users._id}
           onMark={props.onBookMark}
           idItem={users._id}
-          flag={props.flag}/>
+          flag={users.bookmark}/>
         </td>
   </>
     )

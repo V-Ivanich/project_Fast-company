@@ -16,21 +16,27 @@ const titleItems = [
 function App() {
   const inicialState = API.users.fetchAll()
   const [users, setUsers] = useState(inicialState)
-  const [flagUse, setFlagUse] = useState('down')
 
   const handleDelete = userId => {
-    setUsers(prevState => prevState.filter(user => user._id !== userId))
+    const userItems = users.filter(user => user._id !== userId)
+    setUsers(userItems)
   }
 
-  const handleClickBookMark = flag => {
-    setFlagUse(flag ? 'up-fill' : 'down')
+  const handleClickBookMark = idItem => {
+    const listItems = users.map(elem => {
+      if (elem._id === idItem) {
+        elem.bookmark = !elem.bookmark
+      }
+      return elem
+    })
+    setUsers(listItems)
   }
 
   return (
     <>
       <SearchStatus length={users.length} />
       {users.length > 0 && (
-        <table className="table table-striped table-hover">
+        <table className="table table-striped table-hover align-middle">
           <thead className="table-secondary">
             <tr key={users._id}>
               {titleItems.map((item, index) => (
@@ -46,7 +52,6 @@ function App() {
               <Users
                 key={user._id}
                 users={user}
-                flag={flagUse}
                 onDelete={handleDelete}
                 onBookMark={handleClickBookMark}
               />

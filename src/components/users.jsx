@@ -6,13 +6,13 @@ const Users =({ users,...props}) => {
 
   return (
     <>
-      <tr key={users._id} className = "align-baseline">
+      <tr key={users._id}>
 
         <th scope = "row">{users.name}</th>
           <User key={users._id}
           users={users}
           onBookMark={props.onBookMark}
-          flag={props.flag}/>
+          />
         <td>
           
           <button
