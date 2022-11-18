@@ -10,7 +10,7 @@ const Users =({ usersItems,...props}) => {
 
         <th scope = "row">{usersItems.name}</th>
           <User key={usersItems._id}
-          user={usersItems}
+          users={usersItems}
           onBookMark={props.onBookMark}
           />
         <td>

@@ -17,19 +17,19 @@ function App() {
   const inicialState = API.users.fetchAll()
   const [users, setUsers] = useState(inicialState)
 
-  const handleDelete = userId => {
-    const userItems = users.filter(user => user._id !== userId)
-    setUsers(userItems)
+  const handleDelete = usersId => {
+    const usersItems = users.filter(user => user._id !== usersId)
+    setUsers(usersItems)
   }
 
   const handleClickBookMark = idItem => {
-    const listItems = users.map(userItems => {
-      if (userItems._id === idItem) {
-        userItems.bookmark = !userItems.bookmark
+    const usersInfo = users.map(usersItems => {
+      if (usersItems._id === idItem) {
+        usersItems.bookmark = !usersItems.bookmark
       }
-      return userItems
+      return usersItems
     })
-    setUsers(listItems)
+    setUsers(usersInfo)
   }
 
   return (
@@ -48,10 +48,10 @@ function App() {
           </thead>
 
           <tbody>
-            {users.map(usersItem => (
+            {users.map(usersItems => (
               <Users
-                key={usersItem._id}
-                usersItems={usersItem}
+                key={usersItems._id}
+                usersItems={usersItems}
                 onDelete={handleDelete}
                 onBookMark={handleClickBookMark}
               />
