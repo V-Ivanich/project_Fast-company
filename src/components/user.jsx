@@ -3,26 +3,26 @@ import Qualitie from "./qualitie"
 import BookMark from "./bookMark"
 
 
-const User =({users,...props}) => {
+const User =({user,...props}) => {
 
   return (
     <>
-    <td> {users.qualities.map(userElem =>
+    <td> {user.qualities.map(userElem =>
       <Qualitie key={userElem._id}
         color={userElem.color}
         name={userElem.name}
         id ={userElem._id}/>)}
     </td>
 
-    <td>{users.profession.name}</td>
-    <td>{users.completedMeetings}</td>
-    <td>{users.rate}</td>
+    <td>{user.profession.name}</td>
+    <td>{user.completedMeetings}</td>
+    <td>{user.rate +`/5`}</td>
     
     <td>
-      <BookMark key={users._id}
+      <BookMark key={user._id}
         onMark={props.onBookMark}
-        idItem={users._id}
-        flag={users.bookmark}/>
+        idItem={user._id}
+        flag={user.bookmark}/>
     </td>
   </>
     )

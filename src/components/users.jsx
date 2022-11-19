@@ -2,15 +2,15 @@
 import React from "react"
 import User from './user'
 
-const Users =({ usersItems,...props}) => {
+const Users =({ userItem,...props}) => {
 
   return (
     <>
-      <tr key={usersItems._id}>
+      <tr key={userItem._id}>
 
-        <th scope = "row">{usersItems.name}</th>
-          <User key={usersItems._id}
-          users={usersItems}
+        <th scope = "row">{userItem.name}</th>
+          <User key={userItem._id}
+          user={userItem}
           onBookMark={props.onBookMark}
           />
         <td>
@@ -18,7 +18,7 @@ const Users =({ usersItems,...props}) => {
           <button
             type="button"
             className="btn btn-danger rounded-pill"
-            onClick={()=> props.onDelete(usersItems._id)}
+            onClick={()=> props.onDelete(userItem._id)}
             >
             delete
           </button>

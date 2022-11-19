@@ -48,10 +48,10 @@ function App() {
           </thead>
 
           <tbody>
-            {users.map(usersItems => (
+            {users.map(userItem => (
               <Users
-                key={usersItems._id}
-                usersItems={usersItems}
+                key={userItem._id}
+                userItem={userItem}
                 onDelete={handleDelete}
                 onBookMark={handleClickBookMark}
               />
