@@ -1,8 +1,14 @@
 import React from "react";
 
-const BookMark = ({status, ...rest}) => {}
+const BookMark = ({status,...props}) => {
+  return (
+    <button
+      className="btn rounded-pill btn-light" {...props}>
+      <i
+        className={`bi bi-hand-thumbs-${status? 'up-fill': 'down'}`}>
+      </i>
+  </button>
+    )
+}
 
 export default BookMark
-
-{/* <i class="bi bi-hand-thumbs-down"></i> */}
-{/* <i class="bi bi-hand-thumbs-up-fill"></i> */}
