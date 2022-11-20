@@ -6,25 +6,13 @@ const Users =({ userItem,...props}) => {
 
   return (
     <>
-      <tr key={userItem._id}>
+    <tbody>
+      
+    {userItem.map((user) => (
+      <User key={user._id} {...props} {...user} />
+    ))}
 
-        <th scope = "row">{userItem.name}</th>
-          <User key={userItem._id}
-          user={userItem}
-          onBookMark={props.onBookMark}
-          />
-        <td>
-          
-          <button
-            type="button"
-            className="btn btn-danger rounded-pill"
-            onClick={()=> props.onDelete(userItem._id)}
-            >
-            delete
-          </button>
-        </td>
-
-      </tr>
+    </tbody>
     </>
   )
 }

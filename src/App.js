@@ -22,14 +22,15 @@ function App() {
     setUsers(usersItems)
   }
 
-  const handleClickBookMark = idItem => {
-    const usersInfo = users.map(usersItems => {
-      if (usersItems._id === idItem) {
-        usersItems.bookmark = !usersItems.bookmark
-      }
-      return usersItems
-    })
-    setUsers(usersInfo)
+  const handleToggleBookMark = idItem => {
+    setUsers(
+      users.map(usersItems => {
+        if (usersItems._id === idItem) {
+          usersItems.bookmark = !usersItems.bookmark
+        }
+        return usersItems
+      }),
+    )
   }
 
   return (
@@ -47,16 +48,11 @@ function App() {
             </tr>
           </thead>
 
-          <tbody>
-            {users.map(userItem => (
-              <Users
-                key={userItem._id}
-                userItem={userItem}
-                onDelete={handleDelete}
-                onBookMark={handleClickBookMark}
-              />
-            ))}
-          </tbody>
+          <Users
+            onDelete={handleDelete}
+            onToggleBookMark={handleToggleBookMark}
+            userItem={users}
+          />
         </table>
       )}
     </>
