@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Pagination from "./pagination";
 import { paginate } from "../utils/paginate";
 import User from "./user";
+import PropTypes from "prop-types";
 
 const titleItems = [
     "Имя",
@@ -51,6 +52,10 @@ const Users = ({ users, ...props }) => {
             />
         </>
     );
+};
+
+Users.propTypes = {
+    users: PropTypes.array.isRequired
 };
 
 export default Users;
