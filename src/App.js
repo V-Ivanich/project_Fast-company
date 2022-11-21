@@ -51,7 +51,7 @@ function App() {
           <Users
             onDelete={handleDelete}
             onToggleBookMark={handleToggleBookMark}
-            userItem={users}
+            users={users}
           />
         </table>
       )}
