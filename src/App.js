@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Users from "./components/users";
 import API from "./api";
 
 function App() {
-    const inicialState = API.users.fetchAll();
-    const [users, setUsers] = useState(inicialState);
+    const [users, setUsers] = useState();
 
+    useEffect(() => {
+        API.users.fetchAll().then((data) => setUsers(data));
+    }, []);
+
+    console.log(users);
     const handleDelete = (usersId) => {
         const usersItems = users.filter((user) => user._id !== usersId);
         setUsers(usersItems);

@@ -24,12 +24,8 @@ const Users = ({ users: allUsers, ...props }) => {
     const pageSize = 2;
 
     useEffect(() => {
-        API.professions
-            .fetchAll.then((data) =>
-                setProfessions(
-                    data
-                )
-            );
+        API.professions.fetchAll().then((data) =>
+            setProfessions(data));
     }, []);
     useEffect(() => {
         setCurrentPage(1);
@@ -42,12 +38,10 @@ const Users = ({ users: allUsers, ...props }) => {
     const handleProfessionSelect = (item) => {
         setSelectedProf(item);
     };
-    console.log(professions);
 
-    const filteredUsers =
-        selectedProf
-            ? allUsers.filter((user) => user.profession === selectedProf)
-            : allUsers;
+    const filteredUsers = selectedProf
+        ? allUsers.filter((user) => user.profession === selectedProf)
+        : allUsers;
     const count = filteredUsers.length;
     const userCrop = paginate(filteredUsers, currentPage, pageSize);
     const clearFilter = () => {
@@ -60,8 +54,8 @@ const Users = ({ users: allUsers, ...props }) => {
                 <div className="d-flex flex-column flex-shrink-0 p-3">
                     <GroupList
                         selectedItem={selectedProf}
-                        items ={professions}
-                        onItemSelect ={handleProfessionSelect}
+                        items={professions}
+                        onItemSelect={handleProfessionSelect}
                     />
                     <button
                         className="btn btn-secondary mt-2"
@@ -78,7 +72,11 @@ const Users = ({ users: allUsers, ...props }) => {
                         <thead className="table-secondary">
                             <tr key={allUsers._id}>
                                 {titleItems.map((item, index) => (
-                                    <th key={index} className="ms-4" scope="col">
+                                    <th
+                                        key={index}
+                                        className="ms-4"
+                                        scope="col"
+                                    >
                                         {item}
                                     </th>
                                 ))}
