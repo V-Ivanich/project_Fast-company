@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import Users from "./components/users";
-import API from "./api";
+import api from "./api";
 
 function App() {
     const [users, setUsers] = useState();
 
     useEffect(() => {
-        API.users.fetchAll().then((data) => setUsers(data));
+        api.users.fetchAll().then((data) => {
+            setUsers(Object.assign(data));
+        });
     }, []);
 
     console.log(users);

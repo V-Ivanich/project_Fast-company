@@ -4,7 +4,7 @@ import { paginate } from "../utils/paginate";
 import User from "./user";
 import GroupList from "./groupList";
 import PropTypes from "prop-types";
-import API from "../api";
+import api from "../api";
 import SearchStatus from "./searchStatus";
 
 const titleItems = [
@@ -24,8 +24,7 @@ const Users = ({ users: allUsers, ...props }) => {
     const pageSize = 2;
 
     useEffect(() => {
-        API.professions.fetchAll().then((data) =>
-            setProfessions(data));
+        api.professions.fetchAll().then((data) => setProfessions(data));
     }, []);
     useEffect(() => {
         setCurrentPage(1);
