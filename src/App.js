@@ -8,7 +8,7 @@ const App = () => {
 
     useEffect(() => {
         api.users.fetchAll().then((data) => {
-            console.log(data);
+            console.log("App-data", data);
             setUsers(Object.assign(data));
         });
     }, []);

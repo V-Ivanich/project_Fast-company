@@ -25,7 +25,7 @@ const Users = ({ users: allUsers, ...props }) => {
 
     useEffect(() => {
         api.professions.fetchAll().then((data) => {
-            console.log(data);
+            console.log("users-data", data);
             setProfessions(data);
         });
     }, []);
@@ -105,7 +105,7 @@ const Users = ({ users: allUsers, ...props }) => {
 };
 
 Users.propTypes = {
-    users: PropTypes.array.isRequired
+    users: PropTypes.oneOfType([PropTypes.object, PropTypes.array])
 };
 
 export default Users;
