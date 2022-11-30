@@ -4,7 +4,7 @@ import { paginate } from "../utils/paginate";
 import User from "./user";
 import GroupList from "./groupList";
 import PropTypes from "prop-types";
-import api from "../api";
+import api from "../api/index";
 import SearchStatus from "./searchStatus";
 
 const titleItems = [
@@ -25,7 +25,6 @@ const Users = ({ users: allUsers, ...props }) => {
 
     useEffect(() => {
         api.professions.fetchAll().then((data) => {
-            console.log("users-data", data);
             setProfessions(data);
         });
     }, []);
@@ -42,10 +41,14 @@ const Users = ({ users: allUsers, ...props }) => {
     };
 
     const filteredUsers = selectedProf
-        ? allUsers.filter((user) => user.profession === selectedProf)
+        ? allUsers.filter((user) => user.profession.name === selectedProf.name)
         : allUsers;
-    const count = filteredUsers.length;
+
+    console.log("filter", filteredUsers);
+
+    const count = Object.keys(filteredUsers).length;
     const userCrop = paginate(filteredUsers, currentPage, pageSize);
+
     const clearFilter = () => {
         setSelectedProf();
     };
