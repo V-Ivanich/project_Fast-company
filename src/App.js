@@ -6,9 +6,13 @@ const App = () => {
     const [users, setUsers] = useState();
 
     useEffect(() => {
-        api.users.fetchAll().then((data) => {
-            setUsers(Object.assign(data));
-        });
+        if (Array.isArray(api.users)) {
+            setUsers(api.users.fetchAll());
+        } else {
+            api.users.fetchAll().then((data) => {
+                setUsers(Object.assign(data));
+            });
+        }
     }, []);
 
     const handleDelete = (usersId) => {
@@ -28,7 +32,7 @@ const App = () => {
     };
 
     return (
-        <>
+        <div className="d-flex mt-2 justify-content-center">
             {users && (
                 <Users
                     onDelete={handleDelete}
@@ -36,7 +40,7 @@ const App = () => {
                     users={users}
                 />
             )}
-        </>
+        </div>
     );
 };
 

@@ -24,9 +24,15 @@ const Users = ({ users: allUsers, ...props }) => {
     const pageSize = 2;
 
     useEffect(() => {
-        api.professions.fetchAll().then((data) => {
-            setProfessions(data);
-        });
+        if (Array.isArray(api.professions)) {
+            api.professions.fetchAll().then((data) => {
+                setProfessions(data);
+            });
+        } else {
+            api.professions.fetchAll().then((data) => {
+                setProfessions(Object.assign(data));
+            });
+        }
     }, []);
     useEffect(() => {
         setCurrentPage(1);
