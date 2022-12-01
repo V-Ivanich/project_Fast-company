@@ -2,8 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const renderPhrase = (number) => {
-    const pattern = /^[2-4]{1}$|^.{0,}[2-4]$|^.{0,}[2-4][2-4]$/;
-
+    const pattern = /^[2-4]{1}$|^.{0,}[2-4][2-4]$/;
     if (pattern.test(number)) {
         return `${number} человека тусанет с тобой сегодня`;
     } else {
@@ -13,16 +12,16 @@ const renderPhrase = (number) => {
 
 const SearchStatus = ({ length }) => {
     return (
-        <h1
+        <span
             className={
-                `badge rounded-pill mt-1 ms-1 px-2 py-2 bg-` +
+                `badge rounded-pill m-1 ms-2 pt-2 bg-` +
                 (length > 0 ? "primary" : "danger")
             }
         >
             {length !== 0
-                ? renderPhrase(length)
-                : "Никто не пойдет с тобой тусить"}
-        </h1>
+                ? <h5>{renderPhrase(length)}</h5>
+                : <h5 className="mx-3">Никто не пойдет с тобой тусить</h5>}
+        </span>
     );
 };
 
