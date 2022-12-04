@@ -4,7 +4,7 @@ import { paginate } from "../utils/paginate";
 import User from "./user";
 import GroupList from "./groupList";
 import PropTypes from "prop-types";
-import API from "../api";
+import api from "../api/index";
 import SearchStatus from "./searchStatus";
 
 const titleItems = [
@@ -24,13 +24,10 @@ const Users = ({ users: allUsers, ...props }) => {
     const pageSize = 2;
 
     useEffect(() => {
-        API.professions
-            .fetchAll.then((data) =>
-                setProfessions(
-                    data
-                )
-            );
+        api.professions.fetchAll().then((data) =>
+            setProfessions(data));
     }, []);
+
     useEffect(() => {
         setCurrentPage(1);
     }, [selectedProf]);
@@ -42,14 +39,22 @@ const Users = ({ users: allUsers, ...props }) => {
     const handleProfessionSelect = (item) => {
         setSelectedProf(item);
     };
-    console.log(professions);
 
-    const filteredUsers =
-        selectedProf
-            ? allUsers.filter((user) => user.profession === selectedProf)
-            : allUsers;
-    const count = filteredUsers.length;
+    const filteredUsers = selectedProf
+        ? allUsers.filter(
+            (user) =>
+                JSON.stringify(user.profession) ===
+                JSON.stringify(selectedProf)
+        )
+        : allUsers;
+
+    const count = Object.keys(filteredUsers).length;
     const userCrop = paginate(filteredUsers, currentPage, pageSize);
+
+    useEffect(() => {
+        if ((userCrop.length === 0) && (currentPage !== 1)) setCurrentPage(page => page - 1);
+    }, [userCrop]);
+
     const clearFilter = () => {
         setSelectedProf();
     };
@@ -60,8 +65,8 @@ const Users = ({ users: allUsers, ...props }) => {
                 <div className="d-flex flex-column flex-shrink-0 p-3">
                     <GroupList
                         selectedItem={selectedProf}
-                        items ={professions}
-                        onItemSelect ={handleProfessionSelect}
+                        items={professions}
+                        onItemSelect={handleProfessionSelect}
                     />
                     <button
                         className="btn btn-secondary mt-2"
@@ -78,7 +83,11 @@ const Users = ({ users: allUsers, ...props }) => {
                         <thead className="table-secondary">
                             <tr key={allUsers._id}>
                                 {titleItems.map((item, index) => (
-                                    <th key={index} className="ms-4" scope="col">
+                                    <th
+                                        key={index}
+                                        className="ms-4"
+                                        scope="col"
+                                    >
                                         {item}
                                     </th>
                                 ))}
@@ -105,7 +114,7 @@ const Users = ({ users: allUsers, ...props }) => {
 };
 
 Users.propTypes = {
-    users: PropTypes.array.isRequired
+    users: PropTypes.oneOfType([PropTypes.object, PropTypes.array])
 };
 
 export default Users;

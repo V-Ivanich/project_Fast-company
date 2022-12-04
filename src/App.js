@@ -1,10 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Users from "./components/users";
-import API from "./api";
+import api from "./api/index";
 
-function App() {
-    const inicialState = API.users.fetchAll();
-    const [users, setUsers] = useState(inicialState);
+const App = () => {
+    const [users, setUsers] = useState();
+
+    useEffect(() => {
+        if (Array.isArray(api.users)) {
+            setUsers(api.users.fetchAll());
+        } else {
+            api.users.fetchAll().then((data) => {
+                setUsers(Object.assign(data));
+            });
+        }
+    }, []);
 
     const handleDelete = (usersId) => {
         const usersItems = users.filter((user) => user._id !== usersId);
@@ -23,14 +32,16 @@ function App() {
     };
 
     return (
-        <>
-            <Users
-                onDelete={handleDelete}
-                onToggleBookMark={handleToggleBookMark}
-                users={users}
-            />
-        </>
+        <div className="d-flex mt-2 justify-content-center">
+            {users && (
+                <Users
+                    onDelete={handleDelete}
+                    onToggleBookMark={handleToggleBookMark}
+                    users={users}
+                />
+            )}
+        </div>
     );
-}
+};
 
 export default App;
