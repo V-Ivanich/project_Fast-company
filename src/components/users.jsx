@@ -24,16 +24,10 @@ const Users = ({ users: allUsers, ...props }) => {
     const pageSize = 2;
 
     useEffect(() => {
-        if (Array.isArray(api.professions)) {
-            api.professions.fetchAll().then((data) => {
-                setProfessions(data);
-            });
-        } else {
-            api.professions.fetchAll().then((data) => {
-                setProfessions(Object.assign(data));
-            });
-        }
+        api.professions.fetchAll().then((data) =>
+            setProfessions(data));
     }, []);
+
     useEffect(() => {
         setCurrentPage(1);
     }, [selectedProf]);
@@ -47,7 +41,11 @@ const Users = ({ users: allUsers, ...props }) => {
     };
 
     const filteredUsers = selectedProf
-        ? allUsers.filter((user) => user.profession.name === selectedProf.name)
+        ? allUsers.filter(
+            (user) =>
+                JSON.stringify(user.profession) ===
+                JSON.stringify(selectedProf)
+        )
         : allUsers;
 
     const count = Object.keys(filteredUsers).length;
