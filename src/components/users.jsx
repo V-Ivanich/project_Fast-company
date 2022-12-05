@@ -16,8 +16,7 @@ const Users = ({ users: allUsers, ...props }) => {
     const pageSize = 8;
 
     useEffect(() => {
-        api.professions.fetchAll().then((data) =>
-            setProfessions(data));
+        api.professions.fetchAll().then((data) => setProfessions(data));
     }, []);
 
     useEffect(() => {
@@ -29,7 +28,7 @@ const Users = ({ users: allUsers, ...props }) => {
     };
 
     const handleSort = (item) => {
-
+        setSortBy(item);
     };
 
     const handleProfessionSelect = (item) => {
@@ -49,7 +48,9 @@ const Users = ({ users: allUsers, ...props }) => {
     const userCrop = paginate(sortedUsers, currentPage, pageSize);
 
     useEffect(() => {
-        if ((userCrop.length === 0) && (currentPage !== 1)) setCurrentPage(page => page - 1);
+        if (userCrop.length === 0 && currentPage !== 1) {
+            setCurrentPage((page) => page - 1);
+        }
     }, [userCrop]);
 
     const clearFilter = () => {
@@ -76,7 +77,12 @@ const Users = ({ users: allUsers, ...props }) => {
             <div className="d-flex flex-column">
                 <SearchStatus length={count} />
                 {count > 0 && (
-                    <UserTable users={userCrop} onSort={ handleSort } {...props}/>
+                    <UserTable
+                        users={userCrop}
+                        onSort={handleSort}
+                        selectedSort={sortBy}
+                        {...props}
+                    />
                 )}
                 <div className="d-flex justify-content-center">
                     <Pagination
