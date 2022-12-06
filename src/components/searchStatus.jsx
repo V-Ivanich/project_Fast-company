@@ -18,13 +18,11 @@ const SearchStatus = ({ length }) => {
                 (length > 0 ? "primary" : "danger")
             }
         >
-            { length !== 0
-                ? (
-                    <h5>{renderPhrase(length)}</h5>
-                )
-                : (
-                    <h5 className="mx-3">Никто не пойдет с тобой тусить</h5>
-                )}
+            {
+                length !== 0
+                    ? (<h5>{renderPhrase(length)}</h5>)
+                    : (<h5 className="mx-3">Никто не пойдет с тобой тусить</h5>)
+            }
         </span>
     );
 };
