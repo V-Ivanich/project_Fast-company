@@ -11,7 +11,7 @@ const renderPhrase = (number) => {
 };
 
 const SearchStatus = ({ length }) => {
-  if (length === null) return "Loading";
+  // if (length === null) return "Loading";
   return (
     <span
       className={

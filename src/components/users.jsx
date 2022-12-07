@@ -14,6 +14,7 @@ const Users = () => {
   const [selectedProf, setSelectedProf] = useState();
   const [sortBy, setSortBy] = useState({ iter: "name", order: "asc" });
   const pageSize = 8;
+  let userCrop = 0;
 
   const [users, setUsers] = useState();
 
@@ -57,7 +58,13 @@ const Users = () => {
     setSelectedProf(item);
   };
 
-  // if (!users) return "loadind....";
+    useEffect(() => {
+    if (userCrop.length === 0 && currentPage !== 1) {
+      setCurrentPage((page) => page - 1);
+    }
+  }, [userCrop]);
+
+  if (!users) return "loadind....";
   const filteredUsers = selectedProf
     ? users.filter(
         (user) =>
@@ -65,18 +72,12 @@ const Users = () => {
       )
     : users;
 
-  const count = users ? filteredUsers.length : null;
+  const count = filteredUsers.length;
   const sortedUsers = _.orderBy(filteredUsers, [sortBy.path], [sortBy.order]);
-  const userCrop = paginate(sortedUsers, currentPage, pageSize);
+  userCrop = paginate(sortedUsers, currentPage, pageSize);
   const clearFilter = () => {
     setSelectedProf();
   };
-
-  useEffect(() => {
-    if (userCrop.length === 0 && currentPage !== 1) {
-      setCurrentPage((page) => page - 1);
-    }
-  }, [userCrop]);
 
   return (
     <div className="d-flex">
@@ -114,8 +115,6 @@ const Users = () => {
       </div>
     </div>
   );
-  // }
-  // return "loading...";
 };
 
 Users.propTypes = {
