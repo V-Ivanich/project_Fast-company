@@ -27,6 +27,7 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
             scope="col"
           >
             {columns[column].name}
+            <i className="bi bi-chevron-compact-up"></i>
           </th>
         ))}
       </tr>
