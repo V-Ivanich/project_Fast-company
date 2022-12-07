@@ -27,7 +27,11 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
             scope="col"
           >
             {columns[column].name}
-            <i className="bi bi-chevron-compact-up"></i>
+            <i
+              className={`bi bi-chevron-compact-${
+                columns[column].icons ? "down" : "up"
+              }`}
+            ></i>
           </th>
         ))}
       </tr>
