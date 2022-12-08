@@ -10,7 +10,7 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
         icons: selectedSort.icons === "down" ? "up" : "down"
       });
     } else {
-      onSort({ path: item, order: "asc", icons: "down" });
+      onSort({ path: item, order: "asc" });
     }
     console.log(selectedSort.icons);
   };
@@ -31,9 +31,7 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
             {columns[column].name}
             <i
               className={`bi bi-chevron-compact-${
-                columns[column].icons
-                  ? selectedSort.icons
-                  : ""
+                columns[column].icons ? selectedSort.icons : ""
               }`}
             ></i>
           </th>
