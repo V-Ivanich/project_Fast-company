@@ -6,11 +6,13 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
     if (selectedSort.path === item) {
       onSort({
         ...selectedSort,
-        order: selectedSort.order === "asc" ? "desc" : "asc"
+        order: selectedSort.order === "asc" ? "desc" : "asc",
+        icons: selectedSort.icons === "down" ? "up" : "down"
       });
     } else {
-      onSort({ path: item, order: "asc" });
+      onSort({ path: item, order: "asc", icons: "down" });
     }
+    console.log(selectedSort.icons);
   };
   return (
     <thead className="table-secondary">
@@ -29,7 +31,9 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
             {columns[column].name}
             <i
               className={`bi bi-chevron-compact-${
-                columns[column].icons ? "down" : "up"
+                columns[column].icons
+                  ? selectedSort.icons
+                  : ""
               }`}
             ></i>
           </th>

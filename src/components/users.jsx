@@ -50,7 +50,7 @@ const Users = () => {
     setCurrentPage(pageIndex);
   };
 
-  const handleSort = (item) => {
+  const handleSort = (item) => { // надо привязаться
     setSortBy(item);
   };
 
