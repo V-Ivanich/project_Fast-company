@@ -13,7 +13,6 @@ const Users = () => {
   const [professions, setProfessions] = useState();
   const [selectedProf, setSelectedProf] = useState();
   const [sortBy, setSortBy] = useState({ iter: "name", order: "asc" });
-  const [checkIcon, setCheckIcon] = useState({});
   const pageSize = 8;
   let userCrop = 0;
 
@@ -30,10 +29,6 @@ const Users = () => {
   useEffect(() => {
     setCurrentPage(1);
   }, [selectedProf]);
-
-  useEffect(() => {
-    setCheckIcon(UserTable.columns);
-  }, {});
 
   const handleDelete = (usersId) => {
     const usersItems = users.filter((user) => user._id !== usersId);
@@ -105,7 +100,6 @@ const Users = () => {
             users={userCrop}
             onSort={handleSort}
             selectedSort={sortBy}
-            checkIcon={checkIcon}
             onDelete={handleDelete}
             onToggleBookMark={handleToggleBookMark}
           />

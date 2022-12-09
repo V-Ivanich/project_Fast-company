@@ -8,7 +8,6 @@ const UserTable = ({
   users,
   onSort,
   selectedSort,
-  checkIcon,
   onToggleBookMark,
   onDelete
 }) => {
@@ -71,7 +70,6 @@ const UserTable = ({
       selectedSort={selectedSort}
       columns={columns}
       data={users}
-      checkIcon={checkIcon}
     />
   );
 };
@@ -80,7 +78,6 @@ UserTable.propTypes = {
   users: PropTypes.array.isRequired,
   onSort: PropTypes.func.isRequired,
   selectedSort: PropTypes.object.isRequired,
-  checkIcon: PropTypes.object.isRequired,
   onToggleBookMark: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired
 };

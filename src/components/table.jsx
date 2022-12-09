@@ -3,12 +3,12 @@ import PropTypes from "prop-types";
 import TableBody from "./tableBody";
 import TableHeader from "./tableHeader";
 
-const Table = ({ onSort, selectedSort, columns, data, children, checkIcon }) => {
+const Table = ({ onSort, selectedSort, columns, data, children }) => {
   return (
     <table className="table table-striped table-hover align-middle">
       {children || (
         <>
-          <TableHeader {...{ onSort, selectedSort, columns, checkIcon }} />
+          <TableHeader {...{ onSort, selectedSort, columns }} />
           <TableBody {...{ columns, data }} />
         </>
       )}
@@ -20,8 +20,7 @@ Table.propTypes = {
   selectedSort: PropTypes.object,
   columns: PropTypes.object,
   data: PropTypes.array,
-  children: PropTypes.array,
-  checkIcon: PropTypes.object
+  children: PropTypes.array
 };
 
 export default Table;

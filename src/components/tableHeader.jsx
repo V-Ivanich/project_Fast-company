@@ -1,25 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
-import HeaderIcon from "./headerIcons";
 
-const TableHeader = ({ onSort, selectedSort, columns, checkIcon }) => {
-  const handleSort = (item, keyIcon) => {
+const TableHeader = ({ onSort, selectedSort, columns }) => {
+  const handleSort = (item) => {
     if (selectedSort.path === item) {
       onSort({
         ...selectedSort,
         order: selectedSort.order === "asc" ? "desc" : "asc"
         });
       } else {
-      onSort({ path: item, order: "asc", icons: false });
+      onSort({ path: item, order: "asc" });
     }
-    checkIcon(
-      Object.keys(columns).map((column) => {
-        if (columns[column].path === keyIcon.path) {
-          columns[column].icons = !columns[column].icons;
-        }
-        return columns[column].icons ? columns[column].icons : "";
-      })
-    );
   };
 
   return (
@@ -30,25 +21,32 @@ const TableHeader = ({ onSort, selectedSort, columns, checkIcon }) => {
             key={column}
             onClick={
               columns[column].path
-                ? () => handleSort(columns[column].path, columns[column])
+                ? () => handleSort(columns[column].path)
                 : undefined
             }
             {...{ role: columns[column].path && "button" }}
             scope="col"
           >
             {columns[column].name}
-            <HeaderIcon statusIcon={columns[column].icons} handleSort={handleSort}/>
+            {columns[column].path &&
+              (columns[column].path === selectedSort.path)
+                ? () => {
+                    const status = selectedSort.order === "asc";
+                    <i className={`bi bi-chevron-compact-${status ? "up" : "down"}`}></i>;
+                }
+                : ""
+            }
           </th>
         ))}
       </tr>
     </thead>
   );
 };
+
 TableHeader.propTypes = {
   onSort: PropTypes.func.isRequired,
   selectedSort: PropTypes.object.isRequired,
-  columns: PropTypes.object.isRequired,
-  checkIcon: PropTypes.object
+  columns: PropTypes.object.isRequired
 };
 
 export default TableHeader;
