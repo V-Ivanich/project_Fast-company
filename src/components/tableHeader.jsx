@@ -13,6 +13,15 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
     }
   };
 
+  const renderArrow = (item) => {
+    if (item) {
+      if (item === selectedSort.path) {
+        return <i className={`bi bi-chevron-compact-${selectedSort.order === "asc" ? "up" : "down"}`}></i>;
+      }
+    }
+    return "";
+  };
+
   return (
     <thead className="table-secondary">
       <tr>
@@ -28,14 +37,7 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
             scope="col"
           >
             {columns[column].name}
-            {columns[column].path &&
-              (columns[column].path === selectedSort.path)
-                ? () => {
-                    const status = selectedSort.order === "asc";
-                    <i className={`bi bi-chevron-compact-${status ? "up" : "down"}`}></i>;
-                }
-                : ""
-            }
+            {renderArrow(columns[column].path)}
           </th>
         ))}
       </tr>
