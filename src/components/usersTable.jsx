@@ -8,6 +8,7 @@ const UserTable = ({
   users,
   onSort,
   selectedSort,
+  checkIcon,
   onToggleBookMark,
   onDelete
 }) => {
@@ -15,7 +16,7 @@ const UserTable = ({
     name: {
       path: "name",
       name: "Имя",
-      icons: ""
+      icons: false
     },
 
     qualities: {
@@ -26,25 +27,25 @@ const UserTable = ({
     profession: {
       path: "profession.name",
       name: "Профессия",
-      icons: ""
+      icons: false
     },
 
     completedMeetings: {
       path: "completedMeetings",
       name: "Встреч,кол-во",
-      icons: ""
+      icons: false
     },
 
     rate: {
       path: "rate",
       name: "Оценка",
-      icons: ""
+      icons: false
     },
 
     bookmark: {
       path: "bookmark",
       name: "Избранное",
-      icons: "",
+      icons: false,
       component: (user) => (
         <BookMark
           onClick={() => onToggleBookMark(user._id)}
@@ -70,6 +71,7 @@ const UserTable = ({
       selectedSort={selectedSort}
       columns={columns}
       data={users}
+      checkIcon={checkIcon}
     />
   );
 };
@@ -78,6 +80,7 @@ UserTable.propTypes = {
   users: PropTypes.array.isRequired,
   onSort: PropTypes.func.isRequired,
   selectedSort: PropTypes.object.isRequired,
+  checkIcon: PropTypes.object.isRequired,
   onToggleBookMark: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired
 };

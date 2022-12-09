@@ -1,19 +1,27 @@
 import React from "react";
 import PropTypes from "prop-types";
+import HeaderIcon from "./headerIcons";
 
-const TableHeader = ({ onSort, selectedSort, columns }) => {
-  const handleSort = (item) => {
+const TableHeader = ({ onSort, selectedSort, columns, checkIcon }) => {
+  const handleSort = (item, keyIcon) => {
     if (selectedSort.path === item) {
       onSort({
         ...selectedSort,
-        order: selectedSort.order === "asc" ? "desc" : "asc",
-        icons: selectedSort.icons === "down" ? "up" : "down"
-      });
-    } else {
-      onSort({ path: item, order: "asc" });
+        order: selectedSort.order === "asc" ? "desc" : "asc"
+        });
+      } else {
+      onSort({ path: item, order: "asc", icons: false });
     }
-    console.log(selectedSort.icons);
+    checkIcon(
+      Object.keys(columns).map((column) => {
+        if (columns[column].path === keyIcon.path) {
+          columns[column].icons = !columns[column].icons;
+        }
+        return columns[column].icons ? columns[column].icons : "";
+      })
+    );
   };
+
   return (
     <thead className="table-secondary">
       <tr>
@@ -22,18 +30,14 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
             key={column}
             onClick={
               columns[column].path
-                ? () => handleSort(columns[column].path)
+                ? () => handleSort(columns[column].path, columns[column])
                 : undefined
             }
             {...{ role: columns[column].path && "button" }}
             scope="col"
           >
             {columns[column].name}
-            <i
-              className={`bi bi-chevron-compact-${
-                columns[column].icons ? selectedSort.icons : ""
-              }`}
-            ></i>
+            <HeaderIcon statusIcon={columns[column].icons} handleSort={handleSort}/>
           </th>
         ))}
       </tr>
@@ -43,7 +47,8 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
 TableHeader.propTypes = {
   onSort: PropTypes.func.isRequired,
   selectedSort: PropTypes.object.isRequired,
-  columns: PropTypes.object.isRequired
+  columns: PropTypes.object.isRequired,
+  checkIcon: PropTypes.object
 };
 
 export default TableHeader;
