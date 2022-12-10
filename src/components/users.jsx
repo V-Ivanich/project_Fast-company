@@ -80,7 +80,7 @@ const Users = () => {
   };
 
   return (
-    <div className="d-flex">
+    <div className="d-flex justify-content-center">
       {professions && (
         <div className="d-flex flex-column flex-shrink-0 p-3">
           <GroupList
