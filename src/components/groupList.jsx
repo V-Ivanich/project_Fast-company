@@ -14,7 +14,7 @@ const GroupList = ({
         {Object.keys(items).map((item) => (
           <li
             className={
-              "list-group-item" +
+              "list-group-item list-group-item-secondary" +
               (items[item] === selectedItem ? " active" : "")
             }
             key={items[item][valueProperty]}
@@ -32,7 +32,7 @@ const GroupList = ({
       {items.map((item) => (
         <li
           className={
-            "list-group-item" + (item === selectedItem ? " active" : "")
+            "list-group-item list-group-item-secondary" + (item === selectedItem ? " active" : "")
           }
           key={item[valueProperty]}
           onClick={() => onItemSelect(item)}

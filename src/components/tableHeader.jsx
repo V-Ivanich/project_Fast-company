@@ -7,11 +7,23 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
       onSort({
         ...selectedSort,
         order: selectedSort.order === "asc" ? "desc" : "asc"
-      });
-    } else {
+        });
+      } else {
       onSort({ path: item, order: "asc" });
     }
   };
+
+  const renderArrow = (item) => {
+    if (item && item === selectedSort.path) {
+      return (
+        <i
+          className={`bi bi-chevron-compact-${selectedSort.order === "asc" ? "up" : "down"}`}>
+        </i>
+      );
+    }
+    return "";
+  };
+
   return (
     <thead className="table-secondary">
       <tr>
@@ -27,12 +39,14 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
             scope="col"
           >
             {columns[column].name}
+            {renderArrow(columns[column].path)}
           </th>
         ))}
       </tr>
     </thead>
   );
 };
+
 TableHeader.propTypes = {
   onSort: PropTypes.func.isRequired,
   selectedSort: PropTypes.object.isRequired,

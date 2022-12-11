@@ -14,31 +14,37 @@ const UserTable = ({
   const columns = {
     name: {
       path: "name",
-      name: "Имя"
+      name: "Имя",
+      icons: false
     },
 
     qualities: {
       name: "Качества",
       component: (user) => <QualitiesList qualities={user.qualities} />
     },
+
     profession: {
       path: "profession.name",
-      name: "Профессия"
+      name: "Профессия",
+      icons: false
     },
 
     completedMeetings: {
       path: "completedMeetings",
-      name: "Встреч,кол-во"
+      name: "Встреч,кол-во",
+      icons: false
     },
 
     rate: {
       path: "rate",
-      name: "Оценка"
+      name: "Оценка",
+      icons: false
     },
 
     bookmark: {
       path: "bookmark",
       name: "Избранное",
+      icons: false,
       component: (user) => (
         <BookMark
           onClick={() => onToggleBookMark(user._id)}
