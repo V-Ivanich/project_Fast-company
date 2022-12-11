@@ -14,10 +14,12 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
   };
 
   const renderArrow = (item) => {
-    if (item) {
-      if (item === selectedSort.path) {
-        return <i className={`bi bi-chevron-compact-${selectedSort.order === "asc" ? "up" : "down"}`}></i>;
-      }
+    if (item && item === selectedSort.path) {
+      return (
+        <i
+          className={`bi bi-chevron-compact-${selectedSort.order === "asc" ? "up" : "down"}`}>
+        </i>
+      );
     }
     return "";
   };
