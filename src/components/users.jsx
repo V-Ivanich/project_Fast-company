@@ -15,6 +15,7 @@ const Users = () => {
   const [sortBy, setSortBy] = useState({ iter: "name", order: "asc" });
   const pageSize = 8;
   let userCrop = 0;
+  let sortedUsers = {};
 
   const [users, setUsers] = useState();
 
@@ -59,10 +60,10 @@ const Users = () => {
   };
 
     useEffect(() => {
-    if (userCrop.length === 0 && currentPage !== 1) {
+    if (userCrop.length === 0 && currentPage > 1) {
       setCurrentPage((page) => page - 1);
     }
-  }, [userCrop]);
+  }, [sortedUsers]);
 
   if (!users) return "loadind....";
   const filteredUsers = selectedProf
@@ -73,8 +74,9 @@ const Users = () => {
     : users;
 
   const count = filteredUsers.length;
-  const sortedUsers = _.orderBy(filteredUsers, [sortBy.path], [sortBy.order]);
+  sortedUsers = _.orderBy(filteredUsers, [sortBy.path], [sortBy.order]);
   userCrop = paginate(sortedUsers, currentPage, pageSize);
+
   const clearFilter = () => {
     setSelectedProf();
   };
