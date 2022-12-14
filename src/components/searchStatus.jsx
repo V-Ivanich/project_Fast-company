@@ -13,15 +13,13 @@ const renderPhrase = (number) => {
 const SearchStatus = ({ length }) => {
   return (
     <span
-      className={
-        `badge rounded-pill m-1 ms-2 pt-2 bg-` +
-        (length > 0 ? "primary" : "danger")
-      }
+      className={`badge m-1 pt-2 bg-` + (length > 0 ? "secondary" : "danger")}
     >
-      {length !== 0
-        ? (<h5>{renderPhrase(length)}</h5>)
-        : (<h5 className="mx-3">Никто не пойдет с тобой тусить</h5>)
-      }
+      {length ? (
+        <h5>{renderPhrase(length)}</h5>
+      ) : (
+        <h5 className="mx-3">Никто не пойдет с тобой тусить</h5>
+      )}
     </span>
   );
 };

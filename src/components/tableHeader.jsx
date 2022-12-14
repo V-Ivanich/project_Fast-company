@@ -7,8 +7,8 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
       onSort({
         ...selectedSort,
         order: selectedSort.order === "asc" ? "desc" : "asc"
-        });
-      } else {
+      });
+    } else {
       onSort({ path: item, order: "asc" });
     }
   };
@@ -17,8 +17,10 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
     if (item && item === selectedSort.path) {
       return (
         <i
-          className={`bi bi-chevron-compact-${selectedSort.order === "asc" ? "up" : "down"}`}>
-        </i>
+          className={`bi bi-chevron-compact-${
+            selectedSort.order === "asc" ? "up" : "down"
+          }`}
+        ></i>
       );
     }
     return "";

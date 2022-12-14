@@ -56,7 +56,7 @@ const UserTable = ({
       component: (user) => (
         <button
           type="button"
-          className="btn btn-danger rounded-pill"
+          className="btn btn-danger py-0"
           onClick={() => onDelete(user._id)}
         >
           delete
