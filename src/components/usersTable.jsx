@@ -56,7 +56,8 @@ const UserTable = ({
       component: (user) => (
         <button
           type="button"
-          className="btn btn-danger py-0"
+          className="btn py-0"
+          style={{ background: "#FFA07A", color: "#fff" }}
           onClick={() => onDelete(user._id)}
         >
           delete

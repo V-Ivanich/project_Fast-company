@@ -8,7 +8,7 @@ const MenuNav = () => {
   return (
     <>
       <div
-        className="container pl-3"
+        className="container pl-3 mt-2"
         style={{
           background: "#dcdcdc",
           borderRadius: "6px",

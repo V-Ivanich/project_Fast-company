@@ -11,9 +11,15 @@ const renderPhrase = (number) => {
 };
 
 const SearchStatus = ({ length }) => {
+  const backgroundColor = length > 0 ? "#ADD8E6" : "#ffa07a";
   return (
     <span
-      className={`badge m-1 pt-2 bg-` + (length > 0 ? "secondary" : "danger")}
+      className="badge mt-2 mb-1 pt-2"
+      style={{
+        background: backgroundColor,
+        color: "#6A5ACD",
+        borderBottom: "1px solid #6A5ACD"
+      }}
     >
       {length ? (
         <h5>{renderPhrase(length)}</h5>

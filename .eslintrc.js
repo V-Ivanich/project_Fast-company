@@ -1,3 +1,5 @@
+const { off } = require("process");
+
 module.exports = {
   env: {
     browser: true,
@@ -11,7 +13,7 @@ module.exports = {
   },
   plugins: ["react"],
   rules: {
-    indent: ["error", 2],
+    indent: off,
     semi: [2, "always"],
     "space-before-function-paren": [
       "error",
