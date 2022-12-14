@@ -59,8 +59,8 @@ const Users = () => {
     setSelectedProf(item);
   };
 
-    useEffect(() => {
-    if (userCrop.length === 0 && currentPage > 1) {
+  useEffect(() => {
+    if (userCrop.length === 0 && currentPage !== 1) {
       setCurrentPage((page) => page - 1);
     }
   }, [sortedUsers]);
