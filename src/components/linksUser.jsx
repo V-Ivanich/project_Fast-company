@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
-const ShowUser = ({ idUser, nameUser }) => {
+const LinksUser = ({ idUser, nameUser }) => {
   console.log(idUser);
   return (
     <>
@@ -12,9 +12,9 @@ const ShowUser = ({ idUser, nameUser }) => {
     </>
   );
 };
-ShowUser.propTypes = {
+LinksUser.propTypes = {
   idUser: PropTypes.string.isRequired,
   nameUser: PropTypes.string.isRequired
 };
 
-export default ShowUser;
+export default LinksUser;

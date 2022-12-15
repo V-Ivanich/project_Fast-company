@@ -1,12 +1,13 @@
 import React from "react";
-import { Switch, Route, Link } from "react-router-dom";
+import { Switch, Route, Link, Redirect } from "react-router-dom";
 import Main from "./layouts/main";
 import Login from "./layouts/login";
-import UsersNav from "./users";
+import Users from "./users";
 import CardUser from "./cardUser";
+import NotFound from "./not_found";
 
 const MenuNav = () => {
-  console.log(UsersNav.name);
+  console.log("userName -", Users.name);
   return (
     <>
       <div
@@ -42,7 +43,9 @@ const MenuNav = () => {
           path="/users/:idUser"
           render={(params) => <CardUser {...params} />}
         />
-        <Route path="/users" component={UsersNav} />
+        <Route path="/users" component={Users} />
+        <Route path="/404" component={NotFound} />
+        <Redirect to="/404" />
       </Switch>
     </>
   );

@@ -1,8 +1,7 @@
 import React from "react";
-import Users from "../users";
 
 const UsersNav = () => {
-  return <Users />;
+  return <h1>User</h1>;
 };
 
 export default UsersNav;

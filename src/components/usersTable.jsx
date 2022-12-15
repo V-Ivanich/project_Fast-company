@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import BookMark from "./bookMark";
 import QualitiesList from "./qualitiesList";
 import Table from "./table";
-import ShowUser from "./showUser";
+import LinksUser from "./linksUser";
 
 const UserTable = ({
   users,
@@ -17,7 +17,7 @@ const UserTable = ({
       path: "name",
       name: "Имя",
       icons: false,
-      component: (user) => <ShowUser idUser={user._id} nameUser={user.name} />
+      component: (user) => <LinksUser idUser={user._id} nameUser={user.name} />
     },
 
     qualities: {
