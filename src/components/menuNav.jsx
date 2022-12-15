@@ -3,8 +3,10 @@ import { Switch, Route, Link } from "react-router-dom";
 import Main from "./layouts/main";
 import Login from "./layouts/login";
 import UsersNav from "./users";
+import CardUser from "./cardUser";
 
 const MenuNav = () => {
+  console.log(UsersNav.name);
   return (
     <>
       <div
@@ -17,7 +19,7 @@ const MenuNav = () => {
       >
         <ul className="nav">
           <li className="nav-item">
-            <Link className="nav-link active" aria-current="page" to="/">
+            <Link className="nav-link" to="/">
               Main
             </Link>
           </li>
@@ -27,7 +29,7 @@ const MenuNav = () => {
             </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="/users">
+            <Link className="nav-link active" aria-current="page" to="/users">
               Users
             </Link>
           </li>
@@ -36,6 +38,10 @@ const MenuNav = () => {
       <Switch>
         <Route path="/" exact component={Main} />
         <Route path="/login" component={Login} />
+        <Route
+          path="/users/:idUser"
+          render={(params) => <CardUser {...params} />}
+        />
         <Route path="/users" component={UsersNav} />
       </Switch>
     </>
