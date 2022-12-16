@@ -1,16 +1,28 @@
 import React from "react";
-import photo from "../image/logo192.png";
+import photo from "../image/ava.png";
 
 const CardUser = (params) => {
   const idParams = params.match.params.idUser;
   console.log(idParams);
   return (
-    <div className="card" style={{ width: "18rem" }}>
+    <div
+      className="card"
+      style={{
+        width: "18rem",
+        background: "#dcdcdc",
+        marginLeft: "5%"
+      }}
+    >
       <img
         src={photo}
         className="card-img-top"
         alt="ups..."
-        style={{ width: "100px", height: "100px" }}
+        style={{
+          width: "100px",
+          height: "100px",
+          display: "block",
+          margin: "6px 0px 0px 20%"
+        }}
       />
       <div className="card-body">
         <h5 className="card-title">Заголовок карточки</h5>
