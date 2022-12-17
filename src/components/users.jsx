@@ -11,8 +11,7 @@ import UserTable from "./usersTable";
 import _ from "lodash";
 
 const Users = () => {
-  const params = useParams();
-  const { idParams } = params;
+  const { idParams } = useParams();
   console.log(idParams);
   if (idParams) return <CardUser id={idParams} />;
 

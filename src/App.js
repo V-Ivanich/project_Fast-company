@@ -14,12 +14,7 @@ const App = () => {
         <Route path="/" exact component={Main} />
         <Route path="/login" component={Login} />
         <Route path="/users/:idParams?" component={Users} />
-        {/* <Route path="/users/" component={Users} /> */}
-        {/* <Route path="/404" component={NotFound} />
-        <Redirect to="/404" /> */}
       </Switch>
-
-      {/* <Users /> */}
     </>
   );
 };
