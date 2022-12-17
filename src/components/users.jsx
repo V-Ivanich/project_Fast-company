@@ -12,9 +12,6 @@ import _ from "lodash";
 
 const Users = () => {
   const { idParams } = useParams();
-  console.log(idParams);
-  if (idParams) return <CardUser id={idParams} />;
-
   const [currentPage, setCurrentPage] = useState(1);
   const [professions, setProfessions] = useState();
   const [selectedProf, setSelectedProf] = useState();
@@ -72,6 +69,7 @@ const Users = () => {
   }, [sortedUsers]);
 
   if (!users) return "loadind....";
+
   const filteredUsers = selectedProf
     ? users.filter(
         (user) =>
@@ -82,6 +80,9 @@ const Users = () => {
   const count = filteredUsers.length;
   sortedUsers = _.orderBy(filteredUsers, [sortBy.path], [sortBy.order]);
   userCrop = paginate(sortedUsers, currentPage, pageSize);
+
+  if (idParams) return <CardUser id={idParams} data={userCrop} />;
+
   const clearFilter = () => {
     setSelectedProf();
   };

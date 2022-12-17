@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 const LinksUser = ({ idUser, nameUser }) => {
   return (
     <>
-      <Link key={nameUser} to={`users/${idUser}`}>
+      <Link key={idUser} to={`users/${idUser}`}>
         {nameUser}
       </Link>
     </>
