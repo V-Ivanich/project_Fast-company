@@ -1,9 +1,8 @@
 import React from "react";
 import photo from "../image/ava.png";
 
-const CardUser = (params) => {
-  const idParams = params.match.params.idUser;
-  console.log(idParams);
+const CardUser = (id) => {
+  console.log("card-");
   return (
     <div
       className="card"
@@ -26,7 +25,7 @@ const CardUser = (params) => {
       />
       <div className="card-body">
         <h5 className="card-title">Заголовок карточки</h5>
-        <p className="card-text">{idParams}</p>
+        <p className="card-text">{id}</p>
       </div>
       <ul className="list-group list-group-flush">
         <li className="list-group-item">An item</li>

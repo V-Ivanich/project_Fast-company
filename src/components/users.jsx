@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import CardUser from "./cardUser";
 import Pagination from "./pagination";
 import { paginate } from "../utils/paginate";
 import GroupList from "./groupList";
@@ -9,6 +11,11 @@ import UserTable from "./usersTable";
 import _ from "lodash";
 
 const Users = () => {
+  const params = useParams();
+  const { idParams } = params;
+  console.log(idParams);
+  if (idParams) return <CardUser id={idParams} />;
+
   const [currentPage, setCurrentPage] = useState(1);
   const [professions, setProfessions] = useState();
   const [selectedProf, setSelectedProf] = useState();

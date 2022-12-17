@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 const LinksUser = ({ idUser, nameUser }) => {
-  console.log(idUser);
   return (
     <>
       <Link key={idUser} to={`user/${idUser}`}>
