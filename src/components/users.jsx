@@ -81,9 +81,14 @@ const Users = () => {
   sortedUsers = _.orderBy(filteredUsers, [sortBy.path], [sortBy.order]);
   userCrop = paginate(sortedUsers, currentPage, pageSize);
 
+<<<<<<< HEAD
   const clearFilter = () => {
     setSelectedProf();
   };
+=======
+
+  if (idParams) return <CardUser id={idParams} data={userCrop} />;
+>>>>>>> c8c6345005e83d2286f1e0e5caa226a70fd85cb8
 
   if (idParams) return <CardUser id={idParams} data={userCrop} />;
 
