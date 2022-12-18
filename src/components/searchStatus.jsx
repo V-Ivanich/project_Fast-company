@@ -11,17 +11,21 @@ const renderPhrase = (number) => {
 };
 
 const SearchStatus = ({ length }) => {
+  const backgroundColor = length > 0 ? "#ADD8E6" : "#ffa07a";
   return (
     <span
-      className={
-        `badge rounded-pill m-1 ms-2 pt-2 bg-` +
-        (length > 0 ? "primary" : "danger")
-      }
+      className="badge mt-2 mb-1 pt-2"
+      style={{
+        background: backgroundColor,
+        color: "#6A5ACD",
+        borderBottom: "1px solid #6A5ACD"
+      }}
     >
-      {length !== 0
-        ? (<h5>{renderPhrase(length)}</h5>)
-        : (<h5 className="mx-3">Никто не пойдет с тобой тусить</h5>)
-      }
+      {length ? (
+        <h5>{renderPhrase(length)}</h5>
+      ) : (
+        <h5 className="mx-3">Никто не пойдет с тобой тусить</h5>
+      )}
     </span>
   );
 };
