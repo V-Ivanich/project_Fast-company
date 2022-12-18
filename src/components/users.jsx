@@ -81,14 +81,11 @@ const Users = () => {
   sortedUsers = _.orderBy(filteredUsers, [sortBy.path], [sortBy.order]);
   userCrop = paginate(sortedUsers, currentPage, pageSize);
 
-<<<<<<< HEAD
-=======
-  if (idParams) return <CardUser id={idParams} data={userCrop} />;
-
->>>>>>> task_routing
   const clearFilter = () => {
     setSelectedProf();
   };
+
+  if (idParams) return <CardUser id={idParams} data={userCrop} />;
 
   return (
     <div className="d-flex justify-content-center">
