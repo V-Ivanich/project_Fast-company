@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-// import { useParams } from "react-router-dom";
-// import CardUser from "./cardUser";
+import { useParams } from "react-router-dom";
+import CardUser from "./cardUser";
 import Pagination from "./pagination";
 import { paginate } from "../utils/paginate";
 import GroupList from "./groupList";
@@ -11,7 +11,7 @@ import UserTable from "./usersTable";
 import _ from "lodash";
 
 const Users = () => {
-  // const { idParams } = useParams();
+  const { idParams } = useParams();
   const [currentPage, setCurrentPage] = useState(1);
   const [professions, setProfessions] = useState();
   const [selectedProf, setSelectedProf] = useState();
@@ -81,6 +81,11 @@ const Users = () => {
   sortedUsers = _.orderBy(filteredUsers, [sortBy.path], [sortBy.order]);
   userCrop = paginate(sortedUsers, currentPage, pageSize);
 
+<<<<<<< HEAD
+=======
+  if (idParams) return <CardUser id={idParams} data={userCrop} />;
+
+>>>>>>> task_routing
   const clearFilter = () => {
     setSelectedProf();
   };
