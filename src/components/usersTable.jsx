@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import BookMark from "./bookMark";
 import QualitiesList from "./qualitiesList";
 import Table from "./table";
+import LinksUser from "./linksUser";
 
 const UserTable = ({
   users,
@@ -15,7 +16,8 @@ const UserTable = ({
     name: {
       path: "name",
       name: "Имя",
-      icons: false
+      icons: false,
+      component: (user) => <LinksUser idUser={user._id} nameUser={user.name} />
     },
 
     qualities: {
@@ -56,7 +58,8 @@ const UserTable = ({
       component: (user) => (
         <button
           type="button"
-          className="btn btn-danger rounded-pill"
+          className="btn py-0"
+          style={{ background: "#FFA07A", color: "#fff" }}
           onClick={() => onDelete(user._id)}
         >
           delete

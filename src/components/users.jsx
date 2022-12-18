@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+// import { useParams } from "react-router-dom";
+// import CardUser from "./cardUser";
 import Pagination from "./pagination";
 import { paginate } from "../utils/paginate";
 import GroupList from "./groupList";
@@ -9,6 +11,7 @@ import UserTable from "./usersTable";
 import _ from "lodash";
 
 const Users = () => {
+  // const { idParams } = useParams();
   const [currentPage, setCurrentPage] = useState(1);
   const [professions, setProfessions] = useState();
   const [selectedProf, setSelectedProf] = useState();
@@ -66,6 +69,7 @@ const Users = () => {
   }, [sortedUsers]);
 
   if (!users) return "loadind....";
+
   const filteredUsers = selectedProf
     ? users.filter(
         (user) =>

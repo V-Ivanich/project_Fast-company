@@ -15,7 +15,23 @@ const Pagination = ({ itemsCount, pageSize, onPageChange, currentPage }) => {
             className={"page-item" + (page === currentPage ? " active" : "")}
             key={"page_" + page}
           >
-            <button className="page-link" onClick={() => onPageChange(page)}>
+            <button
+              className="page-link m-1"
+              style={
+                page === currentPage
+                  ? {
+                      background: "#ADD8E6",
+                      borderColor: "#D8BFD8",
+                      borderRadius: "50%"
+                    }
+                  : {
+                      background: "#fff",
+                      borderColor: "#fff0f0",
+                      borderRadius: "50%"
+                    }
+              }
+              onClick={() => onPageChange(page)}
+            >
               {page}
             </button>
           </li>
