@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const MenuNav = () => {
+const NavBar = () => {
     return (
         <>
             <div
@@ -25,7 +25,7 @@ const MenuNav = () => {
                     </li>
                     <li className="nav-item">
                         <Link
-                            className="nav-link active"
+                            className="nav-link"
                             aria-current="page"
                             to="/users"
                         >
@@ -38,4 +38,4 @@ const MenuNav = () => {
     );
 };
 
-export default MenuNav;
+export default NavBar;

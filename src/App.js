@@ -1,6 +1,6 @@
 import React from "react";
 import Users from "./components/layouts/users";
-import MenuNav from "./components/menuNav";
+import NavBar from "./components/navBar";
 import Main from "./components/layouts/main";
 import Login from "./components/layouts/login";
 import NotFound from "./components/not_found";
@@ -9,11 +9,11 @@ import { Switch, Route } from "react-router-dom";
 const App = () => {
     return (
         <>
-            <MenuNav />
+            <NavBar />
             <Switch>
+                <Route path="/users/:userId?" component={Users} />
                 <Route path="/" exact component={Main} />
                 <Route path="/login" component={Login} />
-                <Route path="/users/:idParams?" component={Users} />
                 <Route component={NotFound} />
             </Switch>
         </>
