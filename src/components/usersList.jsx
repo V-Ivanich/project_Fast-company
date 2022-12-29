@@ -17,8 +17,26 @@ const UsersList = () => {
     const pageSize = 8;
     let userCrop = 0;
     let sortedUsers = {};
-
     const [users, setUsers] = useState();
+
+    const [search, setSearch] = useState("");
+    const filteredSearch = () => {
+        const test = users.filter((user) => {
+            const str = user.name.toLowerCase();
+            // return -1 < str.indexOf(search);
+            const sample = /{search}/g;
+            return str.match(sample);
+        });
+        return test;
+    };
+    const handleSearchChange = ({ target }) => {
+        setSearch(target.value);
+        // const sample = /`${search}`/g;
+        // return str.match(sample);
+    };
+    useEffect(() => {
+        setUsers(filteredSearch);
+    }, [search]);
 
     useEffect(() => {
         api.users.fetchAll().then((data) => setUsers(data));
@@ -103,7 +121,7 @@ const UsersList = () => {
             )}
             <div className="d-flex flex-column">
                 <SearchStatus length={count} />
-                <Search />
+                <Search value={search} onChange={handleSearchChange} />
                 {count > 0 && (
                     <UserTable
                         users={userCrop}
