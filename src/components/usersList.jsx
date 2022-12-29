@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Pagination from "./pagination";
+import Search from "./search";
 import { paginate } from "../utils/paginate";
 import GroupList from "./groupList";
 import PropTypes from "prop-types";
@@ -102,6 +103,7 @@ const UsersList = () => {
             )}
             <div className="d-flex flex-column">
                 <SearchStatus length={count} />
+                <Search />
                 {count > 0 && (
                     <UserTable
                         users={userCrop}
