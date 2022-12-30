@@ -19,25 +19,25 @@ const UsersList = () => {
     let sortedUsers = {};
     const [users, setUsers] = useState();
 
-    const [search, setSearch] = useState([]);
+    const [search, setSearch] = useState("");
 
     const filteredSearch = () => {
-        const test = _.find(users, ["name", search]);
-        // const test = users.filter((user) => {
-        //     const str = user.name.toLowerCase();
-        //     // return -1 < str.indexOf(search);
-        //     const sample = `/${search}/g`;
-        //     console.log(sample);
-        //     return str.match(sample);
-        // });
+        console.log(search);
+        const test = users.filter((user) => {
+            const str = user.name.toLowerCase();
+            const sample = new RegExp(search, "g");
+            console.log(sample);
+            return str.match(sample);
+        });
         return test;
     };
     const handleSearchChange = ({ target }) => {
         setSearch(target.value);
+        console.log(target.value);
         // setUsers(filteredSearch);
     };
     useEffect(() => {
-        if (users) {
+        if (search) {
             setUsers(filteredSearch);
         }
     }, [search]);
