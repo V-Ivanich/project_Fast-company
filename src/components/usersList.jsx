@@ -20,25 +20,24 @@ const UsersList = () => {
     const [users, setUsers] = useState();
 
     const [search, setSearch] = useState("");
+    let userSearch = [];
 
     const filteredSearch = () => {
-        console.log(search);
-        const test = users.filter((user) => {
+        userSearch = users.filter((user) => {
             const str = user.name.toLowerCase();
             const sample = new RegExp(search, "g");
-            console.log(sample);
             return str.match(sample);
         });
-        return test;
+        console.log("func-", userSearch);
+        // return sortUsers;
     };
     const handleSearchChange = ({ target }) => {
         setSearch(target.value);
-        console.log(target.value);
-        // setUsers(filteredSearch);
     };
+
     useEffect(() => {
         if (search) {
-            setUsers(filteredSearch);
+            filteredSearch();
         }
     }, [search]);
 
@@ -89,15 +88,25 @@ const UsersList = () => {
     }, [sortedUsers]);
 
     if (!users) return "loadind....";
-
+    console.log("in-", userSearch);
     const filteredUsers = selectedProf
         ? users.filter(
               (user) =>
                   JSON.stringify(user.profession) ===
                   JSON.stringify(selectedProf)
           )
+        : search
+        ? userSearch
         : users;
 
+    console.log(
+        "userSearch-",
+        userSearch,
+        "filtered-",
+        filteredUsers,
+        "users-",
+        users
+    );
     const count = filteredUsers.length;
     sortedUsers = _.orderBy(filteredUsers, [sortBy.path], [sortBy.order]);
     userCrop = paginate(sortedUsers, currentPage, pageSize);
