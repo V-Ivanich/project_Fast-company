@@ -19,27 +19,29 @@ const UsersList = () => {
     let sortedUsers = {};
     const [users, setUsers] = useState();
 
-    const [search, setSearch] = useState("");
-    let userSearch = [];
+    const [search, setSearch] = useState({ regExp: "", userSearch: [] });
 
     const filteredSearch = () => {
-        userSearch = users.filter((user) => {
-            const str = user.name.toLowerCase();
-            const sample = new RegExp(search, "g");
-            return str.match(sample);
-        });
-        console.log("func-", userSearch);
-        // return sortUsers;
+        console.log(search.userSearch);
+        setSearch((prevState) => ({
+            ...prevState,
+            userSearch: users.filter((user) => {
+                const str = user.name.toLowerCase();
+                const sample = new RegExp(search.regExp, "g");
+                return str.match(sample);
+            })
+        }));
+        console.log(search.regExp);
     };
     const handleSearchChange = ({ target }) => {
-        setSearch(target.value);
+        setSearch((prevState) => ({ ...prevState, regExp: target.value }));
     };
 
     useEffect(() => {
-        if (search) {
+        if (search.regExp) {
             filteredSearch();
         }
-    }, [search]);
+    }, [search.regExp]);
 
     useEffect(() => {
         api.users.fetchAll().then((data) => setUsers(data));
@@ -88,25 +90,17 @@ const UsersList = () => {
     }, [sortedUsers]);
 
     if (!users) return "loadind....";
-    console.log("in-", userSearch);
+    console.log("in-", search.regExp);
     const filteredUsers = selectedProf
         ? users.filter(
               (user) =>
                   JSON.stringify(user.profession) ===
                   JSON.stringify(selectedProf)
           )
-        : search
-        ? userSearch
+        : search.regExp
+        ? search.userSearch
         : users;
 
-    console.log(
-        "userSearch-",
-        userSearch,
-        "filtered-",
-        filteredUsers,
-        "users-",
-        users
-    );
     const count = filteredUsers.length;
     sortedUsers = _.orderBy(filteredUsers, [sortBy.path], [sortBy.order]);
     userCrop = paginate(sortedUsers, currentPage, pageSize);
@@ -134,7 +128,7 @@ const UsersList = () => {
             )}
             <div className="d-flex flex-column">
                 <SearchStatus length={count} />
-                <Search value={search} onChange={handleSearchChange} />
+                <Search value={search.regExp} onChange={handleSearchChange} />
                 {count > 0 && (
                     <UserTable
                         users={userCrop}
