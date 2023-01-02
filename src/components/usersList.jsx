@@ -22,19 +22,23 @@ const UsersList = () => {
     const [search, setSearch] = useState({ regExp: "", userSearch: [] });
 
     const filteredSearch = () => {
-        console.log(search.userSearch);
         setSearch((prevState) => ({
             ...prevState,
             userSearch: users.filter((user) => {
-                const str = user.name.toLowerCase();
+                const strUserName = user.name.toLowerCase();
                 const sample = new RegExp(search.regExp, "g");
-                return str.match(sample);
+                return strUserName.match(sample);
             })
         }));
-        console.log(search.regExp);
     };
     const handleSearchChange = ({ target }) => {
-        setSearch((prevState) => ({ ...prevState, regExp: target.value }));
+        setSearch((prevState) => ({
+            ...prevState,
+            regExp: target.value.toLowerCase()
+        }));
+    };
+    const handleClearInput = () => {
+        clearFilter();
     };
 
     useEffect(() => {
@@ -53,6 +57,9 @@ const UsersList = () => {
 
     useEffect(() => {
         setCurrentPage(1);
+        if (search) {
+            setSearch((prev) => ({ ...prev, regExp: "" }));
+        }
     }, [selectedProf]);
 
     const handleDelete = (usersId) => {
@@ -90,7 +97,7 @@ const UsersList = () => {
     }, [sortedUsers]);
 
     if (!users) return "loadind....";
-    console.log("in-", search.regExp);
+
     const filteredUsers = selectedProf
         ? users.filter(
               (user) =>
@@ -128,7 +135,11 @@ const UsersList = () => {
             )}
             <div className="d-flex flex-column">
                 <SearchStatus length={count} />
-                <Search value={search.regExp} onChange={handleSearchChange} />
+                <Search
+                    value={search.regExp}
+                    onChange={handleSearchChange}
+                    onClick={handleClearInput}
+                />
                 {count > 0 && (
                     <UserTable
                         users={userCrop}

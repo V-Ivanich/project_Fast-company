@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const Search = ({ value, onChange }) => {
+const Search = ({ value, onChange, onClick }) => {
     return (
         <div className="mb-2 mt-1">
             <input
@@ -10,12 +10,14 @@ const Search = ({ value, onChange }) => {
                 placeholder="Поиск..."
                 value={value}
                 onChange={onChange}
+                onClick={onClick}
             />
         </div>
     );
 };
 Search.propTypes = {
     value: PropTypes.string,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    onClick: PropTypes.func
 };
 export default Search;
