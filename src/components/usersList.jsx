@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Pagination from "./pagination";
+import Search from "./search";
 import { paginate } from "../utils/paginate";
 import GroupList from "./groupList";
 import PropTypes from "prop-types";
@@ -16,8 +17,35 @@ const UsersList = () => {
     const pageSize = 8;
     let userCrop = 0;
     let sortedUsers = {};
-
     const [users, setUsers] = useState();
+
+    const [search, setSearch] = useState({ regExp: "", userSearch: [] });
+
+    const filteredSearch = () => {
+        setSearch((prevState) => ({
+            ...prevState,
+            userSearch: users.filter((user) => {
+                const strUserName = user.name.toLowerCase();
+                const sample = new RegExp(search.regExp, "g");
+                return strUserName.match(sample);
+            })
+        }));
+    };
+    const handleSearchChange = ({ target }) => {
+        setSearch((prevState) => ({
+            ...prevState,
+            regExp: target.value.toLowerCase()
+        }));
+    };
+    const handleClearInput = () => {
+        clearFilter();
+    };
+
+    useEffect(() => {
+        if (search.regExp) {
+            filteredSearch();
+        }
+    }, [search.regExp]);
 
     useEffect(() => {
         api.users.fetchAll().then((data) => setUsers(data));
@@ -29,6 +57,9 @@ const UsersList = () => {
 
     useEffect(() => {
         setCurrentPage(1);
+        if (search) {
+            setSearch((prev) => ({ ...prev, regExp: "" }));
+        }
     }, [selectedProf]);
 
     const handleDelete = (usersId) => {
@@ -73,6 +104,8 @@ const UsersList = () => {
                   JSON.stringify(user.profession) ===
                   JSON.stringify(selectedProf)
           )
+        : search.regExp
+        ? search.userSearch
         : users;
 
     const count = filteredUsers.length;
@@ -102,6 +135,11 @@ const UsersList = () => {
             )}
             <div className="d-flex flex-column">
                 <SearchStatus length={count} />
+                <Search
+                    value={search.regExp}
+                    onChange={handleSearchChange}
+                    onClick={handleClearInput}
+                />
                 {count > 0 && (
                     <UserTable
                         users={userCrop}
