@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from "react";
-import Pagination from "./pagination";
-import Search from "./search";
-import { paginate } from "../utils/paginate";
-import GroupList from "./groupList";
+import Pagination from "../../common/pagination";
+import { paginate } from "../../../utils/paginate";
+import GroupList from "../../common/groupList";
 import PropTypes from "prop-types";
-import api from "../api/index";
-import SearchStatus from "./searchStatus";
-import UserTable from "./usersTable";
+import api from "../../../api";
+import SearchStatus from "../../ui/searchStatus";
+import UserTable from "../../usersTable";
 import _ from "lodash";
 
-const UsersList = () => {
+const UsersListPage = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [professions, setProfessions] = useState();
     const [selectedProf, setSelectedProf] = useState();
@@ -19,33 +18,7 @@ const UsersList = () => {
     let sortedUsers = {};
     const [users, setUsers] = useState();
 
-    const [search, setSearch] = useState({ regExp: "", userSearch: [] });
-
-    const filteredSearch = () => {
-        setSearch((prevState) => ({
-            ...prevState,
-            userSearch: users.filter((user) => {
-                const strUserName = user.name.toLowerCase();
-                const sample = new RegExp(search.regExp, "g");
-                return strUserName.match(sample);
-            })
-        }));
-    };
-    const handleSearchChange = ({ target }) => {
-        setSearch((prevState) => ({
-            ...prevState,
-            regExp: target.value.toLowerCase()
-        }));
-    };
-    const handleClearInput = () => {
-        clearFilter();
-    };
-
-    useEffect(() => {
-        if (search.regExp) {
-            filteredSearch();
-        }
-    }, [search.regExp]);
+    const [searchQuery, setSearchQuery] = useState("");
 
     useEffect(() => {
         api.users.fetchAll().then((data) => setUsers(data));
@@ -57,10 +30,7 @@ const UsersList = () => {
 
     useEffect(() => {
         setCurrentPage(1);
-        if (search) {
-            setSearch((prev) => ({ ...prev, regExp: "" }));
-        }
-    }, [selectedProf]);
+    }, [selectedProf, searchQuery]);
 
     const handleDelete = (usersId) => {
         const usersItems = users.filter((user) => user._id !== usersId);
@@ -87,7 +57,13 @@ const UsersList = () => {
     };
 
     const handleProfessionSelect = (item) => {
+        if (searchQuery !== "") setSearchQuery("");
         setSelectedProf(item);
+    };
+
+    const handleSearchQuery = ({ target }) => {
+        setSelectedProf(undefined);
+        setSearchQuery(target.value);
     };
 
     useEffect(() => {
@@ -98,14 +74,18 @@ const UsersList = () => {
 
     if (!users) return "loadind....";
 
-    const filteredUsers = selectedProf
+    const filteredUsers = searchQuery
+        ? users.filter(
+              (user) =>
+                  user.name.toLowerCase().indexOf(searchQuery.toLowerCase()) !==
+                  -1
+          )
+        : selectedProf
         ? users.filter(
               (user) =>
                   JSON.stringify(user.profession) ===
                   JSON.stringify(selectedProf)
           )
-        : search.regExp
-        ? search.userSearch
         : users;
 
     const count = filteredUsers.length;
@@ -135,10 +115,13 @@ const UsersList = () => {
             )}
             <div className="d-flex flex-column">
                 <SearchStatus length={count} />
-                <Search
-                    value={search.regExp}
-                    onChange={handleSearchChange}
-                    onClick={handleClearInput}
+                <input
+                    className="mb-1 px-2"
+                    type="text"
+                    name="searchQuery"
+                    placeholder="Search..."
+                    onChange={handleSearchQuery}
+                    value={searchQuery}
                 />
                 {count > 0 && (
                     <UserTable
@@ -162,8 +145,8 @@ const UsersList = () => {
     );
 };
 
-UsersList.propTypes = {
+UsersListPage.propTypes = {
     users: PropTypes.oneOfType([PropTypes.object, PropTypes.array])
 };
 
-export default UsersList;
+export default UsersListPage;

@@ -1,6 +1,6 @@
 import React from "react";
 import Users from "./components/layouts/users";
-import NavBar from "./components/navBar";
+import NavBar from "./components/ui/navBar";
 import Main from "./components/layouts/main";
 import Login from "./components/layouts/login";
 import NotFound from "./components/not_found";

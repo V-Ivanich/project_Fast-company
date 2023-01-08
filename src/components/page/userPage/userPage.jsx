@@ -3,13 +3,13 @@ import { useHistory } from "react-router-dom";
 import photo from "../image/ava.png";
 import QualitiesList from "./qualitiesList";
 import PropTypes from "prop-types";
-import API from "../api";
+import api from "../../../api";
 
 const UserPage = ({ userId }) => {
     const [user, setUser] = useState();
     const history = useHistory();
     useEffect(() => {
-        API.users.getById(userId).then((data) => setUser(data));
+        api.users.getById(userId).then((data) => setUser(data));
     });
     const handleClick = () => {
         history.push("/users");
