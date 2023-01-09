@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import photo from "../image/ava.png";
-import QualitiesList from "./qualitiesList";
+import photo from "../../../image/ava.png";
+import Qualities from "../../ui/qualities";
 import PropTypes from "prop-types";
 import api from "../../../api";
 
@@ -44,7 +44,7 @@ const UserPage = ({ userId }) => {
                             {`Профессия: ${user.profession.name}`}
                         </li>
                         <li className="list-group-item">
-                            {<QualitiesList qualities={user.qualities} />}
+                            {<Qualities qualities={user.qualities} />}
                         </li>
                         <li className="list-group-item">{`Встреч : ${user.completedMeetings}`}</li>
                         <li className="list-group-item">{`Рейтинг : ${user.rate}`}</li>

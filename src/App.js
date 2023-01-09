@@ -3,8 +3,7 @@ import Users from "./components/layouts/users";
 import NavBar from "./components/ui/navBar";
 import Main from "./components/layouts/main";
 import Login from "./components/layouts/login";
-import NotFound from "./components/not_found";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 
 const App = () => {
     return (
@@ -13,8 +12,8 @@ const App = () => {
             <Switch>
                 <Route path="/users/:userId?" component={Users} />
                 <Route path="/" exact component={Main} />
-                <Route path="/login" component={Login} />
-                <Route component={NotFound} />
+                <Route path="/login/:type?" component={Login} />
+                <Redirect to="/" />
             </Switch>
         </>
     );
