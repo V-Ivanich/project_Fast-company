@@ -19,10 +19,10 @@ const RegisterForm = () => {
 
     useEffect(() => {
         api.professions.fetchAll().then((data) => setProfessions(data));
-        api.qualities.professions.fetchAll().then((data) => setQualities(data));
+        api.qualities.fetchAll().then((data) => setQualities(data));
     }, []);
 
-    const handleChange = ({ target }) => {
+    const handleChange = (target) => {
         setData((prevState) => ({
             ...prevState,
             [target.name]: target.value
