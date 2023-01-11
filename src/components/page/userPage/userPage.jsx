@@ -55,7 +55,7 @@ const UserPage = ({ userId }) => {
                             className="btn btn-secondary"
                             onClick={handleClick}
                         >
-                            Вернуться обратно
+                            Изменить
                         </button>
                     </div>
                 </div>
