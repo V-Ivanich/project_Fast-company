@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import photo from "../../../image/ava.png";
 import Qualities from "../../ui/qualities";
 import PropTypes from "prop-types";
 import api from "../../../api";
+// import UserEditing from "../userEditing";
 
 const UserPage = ({ userId }) => {
     const [user, setUser] = useState();
+
     const history = useHistory();
+
     useEffect(() => {
         api.users.getById(userId).then((data) => setUser(data));
     });
@@ -55,7 +58,7 @@ const UserPage = ({ userId }) => {
                             className="btn btn-secondary"
                             onClick={handleClick}
                         >
-                            Изменить
+                            <Link to="/edit">Изменить</Link>
                         </button>
                     </div>
                 </div>
