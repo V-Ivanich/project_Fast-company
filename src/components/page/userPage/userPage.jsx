@@ -18,7 +18,7 @@ const UserPage = ({ userId }) => {
         return (
             <>
                 {edit ? (
-                    <UserEditing id={userId} />
+                    <UserEditing user={user} />
                 ) : (
                     <div className="container mt-4">
                         <div className="row">

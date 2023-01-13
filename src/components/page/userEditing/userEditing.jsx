@@ -1,31 +1,35 @@
 import React, { useState, useEffect } from "react";
-// import { useParams } from "react-router-dom";
 import { validator } from "../../../utils/validator";
-import api from "../../../api";
+// import api from "../../../api";
 import TextField from "../../common/form/textField";
 import SelectField from "../../common/form/selectField";
 import RadioField from "../../common/form/radioField";
 import MultiSelectField from "../../common/form/multiSelectField";
+import PropTypes from "prop-types";
 
-const UserEditing = () => {
-    // const { userId } = useParams();
+const UserEditing = ({ user }) => {
+    const qualitiesAll = user.qualities;
+
     const [data, setData] = useState({
-        email: "",
-        password: "",
-        profession: "",
-        sex: "male",
-        qualities: [],
-        licence: false
+        name: `${user.name}`,
+        email: `${user.email}`,
+        profession: `${user.profession.name}`,
+        sex: `${user.sex}`,
+        qualities: []
     });
 
     const [qualities, setQualities] = useState({});
     const [errors, setErrors] = useState({});
     const [professions, setProfessions] = useState();
 
-    useEffect(() => {
-        api.professions.fetchAll().then((data) => setProfessions(data));
-        api.qualities.fetchAll().then((data) => setQualities(data));
-    }, []);
+    setQualities(qualitiesAll);
+    setProfessions(data.profession);
+
+    console.log(qualitiesAll);
+    // useEffect(() => {
+    //     api.professions.fetchAll().then((data) => setProfessions(data));
+    //     api.qualities.fetchAll().then((data) => setQualities(data));
+    // }, []);
 
     const validatorConfig = {
         name: {
@@ -47,7 +51,7 @@ const UserEditing = () => {
             }
         }
     };
-
+    console.log("useState-", qualities);
     const validate = () => {
         const errors = validator(data, validatorConfig);
         setErrors(errors);
@@ -132,4 +136,7 @@ const UserEditing = () => {
     );
 };
 
+UserEditing.propTypes = {
+    user: PropTypes.object.isRequired
+};
 export default UserEditing;
