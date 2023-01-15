@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import api from "../../../api";
 import SearchStatus from "../../ui/searchStatus";
 import UserTable from "../../ui/usersTable";
+import Loading from "../../ui/loading";
 import _ from "lodash";
 
 const UsersListPage = () => {
@@ -72,7 +73,7 @@ const UsersListPage = () => {
         }
     }, [sortedUsers]);
 
-    if (!users) return "loadind....";
+    if (!users) return <Loading />;
 
     const filteredUsers = searchQuery
         ? users.filter(
