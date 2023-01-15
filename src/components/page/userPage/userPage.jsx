@@ -5,6 +5,7 @@ import Qualities from "../../ui/qualities";
 import PropTypes from "prop-types";
 import api from "../../../api";
 import UserEditing from "../userEditing";
+import Loading from "../../ui/loading";
 
 const UserPage = ({ userId }) => {
     const [user, setUser] = useState();
@@ -14,6 +15,7 @@ const UserPage = ({ userId }) => {
         api.users.getById(userId).then((data) => setUser(data));
     });
 
+    console.log("userPage-->", user);
     if (user) {
         return (
             <>
@@ -80,7 +82,7 @@ const UserPage = ({ userId }) => {
             </>
         );
     } else {
-        return <h1>Loading...</h1>;
+        return <Loading />;
     }
 };
 UserPage.propTypes = {

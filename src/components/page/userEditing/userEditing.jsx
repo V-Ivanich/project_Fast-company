@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-// import { validator } from "../../../utils/validator";
+import { validator } from "../../../utils/validator";
 import api from "../../../api";
 import TextField from "../../common/form/textField";
 import SelectField from "../../common/form/selectField";
@@ -23,8 +23,9 @@ const UserEditing = ({ user }) => {
         qualities: qualitiesAll
     });
 
+    console.log("data-->", data);
     const [qualitiesEdit, setQualitiesEdit] = useState({});
-    // const [errors, setErrors] = useState({});
+    const [errors, setErrors] = useState({});
     const [professionsEdit, setProfessionsEdit] = useState();
 
     useEffect(() => {
@@ -32,47 +33,28 @@ const UserEditing = ({ user }) => {
         api.qualities.fetchAll().then((data) => setQualitiesEdit(data));
     }, []);
 
-    console.log(professionsEdit);
     const hist = useHistory();
 
-    // const validatorConfig = {
-    //     name: {
-    //         isRequired: {
-    //             message: "Если нужно сменить имя и фамилию"
-    //         }
-    //     },
-    //     email: {
-    //         isRequired: {
-    //             message: "Электронная почта обязательна для заполнения"
-    //         },
-    //         isEmail: {
-    //             message: "Email введен некорректно"
-    //         }
-    //     },
-    //     profession: {
-    //         isRequired: {
-    //             message: "Обязательно выберите вашу профессию"
-    //         }
-    //     }
-    // };
-    // const validate = () => {
-    //     const errors = validator(data, validatorConfig);
-    //     setErrors(errors);
-    //     return Object.keys(errors).length === 0;
-    // };
+    const validatorConfig = {
+        email: {
+            isRequired: {
+                message: "Электронная почта обязательна для заполнения"
+            },
+            isEmail: {
+                message: "Email введен некорректно"
+            }
+        }
+    };
 
-    // const isValid = Object.keys(errors).length === 0;
+    const validate = () => {
+        const errors = validator(data, validatorConfig);
+        setErrors(errors);
+        return Object.keys(errors).length === 0;
+    };
 
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     const isValid = validate();
-    //     if (!isValid) return;
-    //     console.log(data);
-    // };
-
-    // useEffect(() => {
-    //     validate();
-    // }, [data]);
+    useEffect(() => {
+        validate();
+    }, [data]);
 
     const handleChange = (target) => {
         setData((prevState) => ({
@@ -83,17 +65,20 @@ const UserEditing = ({ user }) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        const keysQualiti = Object.values(qualitiesEdit);
+        const keysProfession = Object.values(professionsEdit);
         const parsingData = {
             _id: data._id,
             name: data.name,
             email: data.email,
-            profession: Object.values(professionsEdit).find(
-                (item) => item._id === data.profession
+            profession: keysProfession.find(
+                (item) => item._id === data.profession._id
             ),
             sex: data.sex,
             qualities: data.qualities.map((item) => ({
                 _id: item.value,
-                name: item.label
+                name: item.label,
+                color: keysQualiti.find((elem) => elem._id === item.value).color
             }))
         };
         api.users.update(data._id, parsingData);
@@ -114,14 +99,13 @@ const UserEditing = ({ user }) => {
                                 name="name"
                                 value={data.name}
                                 onChange={handleChange}
-                                // error={errors.name}
                             />
                             <TextField
                                 label="Электронная почта"
                                 name="email"
                                 value={data.email}
                                 onChange={handleChange}
-                                // error={errors.email}
+                                error={errors.email}
                             />
                             <SelectField
                                 label="Профессия"
@@ -129,7 +113,6 @@ const UserEditing = ({ user }) => {
                                 onChange={handleChange}
                                 defaultOption="Choose..."
                                 value={data.profession._id}
-                                // error={errors.profession}
                             />
                             <RadioField
                                 options={[
