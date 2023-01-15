@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 // import { validator } from "../../../utils/validator";
 import api from "../../../api";
 import TextField from "../../common/form/textField";
@@ -30,6 +31,9 @@ const UserEditing = ({ user }) => {
         api.professions.fetchAll().then((data) => setProfessionsEdit(data));
         api.qualities.fetchAll().then((data) => setQualitiesEdit(data));
     }, []);
+
+    console.log(professionsEdit);
+    const hist = useHistory();
 
     // const validatorConfig = {
     //     name: {
@@ -77,64 +81,85 @@ const UserEditing = ({ user }) => {
         }));
     };
 
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        const parsingData = {
+            _id: data._id,
+            name: data.name,
+            email: data.email,
+            profession: Object.values(professionsEdit).find(
+                (item) => item._id === data.profession
+            ),
+            sex: data.sex,
+            qualities: data.qualities.map((item) => ({
+                _id: item.value,
+                name: item.label
+            }))
+        };
+        api.users.update(data._id, parsingData);
+        hist.goBack();
+    };
+
     return (
-        <div className="container mt-5">
-            <div className="row">
-                <div className="col-md-6 offset-md-3 shadow p-4">
-                    <form>
-                        <label className="form-label">
-                            <h2>Форма редактирования</h2>
-                        </label>
-                        <TextField
-                            label="Имя"
-                            name="name"
-                            value={data.name}
-                            onChange={handleChange}
-                            // error={errors.name}
-                        />
-                        <TextField
-                            label="Электронная почта"
-                            name="email"
-                            value={data.email}
-                            onChange={handleChange}
-                            // error={errors.email}
-                        />
-                        <SelectField
-                            label="Профессия"
-                            options={professionsEdit}
-                            onChange={handleChange}
-                            defaultOption="Choose..."
-                            value={data.profession._id}
-                            // error={errors.profession}
-                        />
-                        <RadioField
-                            options={[
-                                { name: "Male", value: "male" },
-                                { name: "Female", value: "female" },
-                                { name: "Other", value: "other" }
-                            ]}
-                            label="Пол"
-                            value={data.sex}
-                            name="sex"
-                            onChange={handleChange}
-                        />
-                        <MultiSelectField
-                            options={qualitiesEdit}
-                            onChange={handleChange}
-                            defaultValue={data.qualities}
-                            name="qualities"
-                            label="Качества"
-                        />
-                        <button
-                            type="submit"
-                            className="btn btn-primary w-100 mx-auto"
-                        >
-                            Применить изменения
-                        </button>
-                    </form>
+        <>
+            <div className="container mt-5">
+                <div className="row">
+                    <div className="col-md-6 offset-md-3 shadow p-4">
+                        <form onSubmit={handleSubmit}>
+                            <label className="form-label">
+                                <h2>Форма редактирования</h2>
+                            </label>
+                            <TextField
+                                label="Имя"
+                                name="name"
+                                value={data.name}
+                                onChange={handleChange}
+                                // error={errors.name}
+                            />
+                            <TextField
+                                label="Электронная почта"
+                                name="email"
+                                value={data.email}
+                                onChange={handleChange}
+                                // error={errors.email}
+                            />
+                            <SelectField
+                                label="Профессия"
+                                options={professionsEdit}
+                                onChange={handleChange}
+                                defaultOption="Choose..."
+                                value={data.profession._id}
+                                // error={errors.profession}
+                            />
+                            <RadioField
+                                options={[
+                                    { name: "Male", value: "male" },
+                                    { name: "Female", value: "female" },
+                                    { name: "Other", value: "other" }
+                                ]}
+                                label="Пол"
+                                value={data.sex}
+                                name="sex"
+                                onChange={handleChange}
+                            />
+                            <MultiSelectField
+                                options={qualitiesEdit}
+                                onChange={handleChange}
+                                defaultValue={data.qualities}
+                                name="qualities"
+                                label="Качества"
+                            />
+                            <button
+                                type="submit"
+                                className="btn btn-primary w-100 mx-auto"
+                            >
+                                Применить изменения
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 
