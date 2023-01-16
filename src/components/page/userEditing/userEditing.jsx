@@ -11,12 +11,11 @@ import Loading from "../../ui/loading";
 
 const UserEditing = () => {
     const { userId } = useParams();
-    // const qualitiesAll = Object.keys(user.qualities).map((optionName) => ({
-    //     label: user.qualities[optionName].name,
-    //     value: user.qualities[optionName]._id
-    // }));
-
     const history = useHistory();
+    const [isLoading, setIsLoading] = useState(false);
+    const [qualities, setQualities] = useState({});
+    const [errors, setErrors] = useState({});
+    const [professions, setProfessions] = useState();
 
     const [data, setData] = useState({
         name: "",
@@ -25,11 +24,6 @@ const UserEditing = () => {
         sex: "male",
         qualities: []
     });
-
-    const [qualities, setQualities] = useState({});
-    const [errors, setErrors] = useState({});
-    const [professions, setProfessions] = useState();
-    const [isLoading, setIsLoading] = useState(false);
 
     const transformData = (data) => {
         return data.map((item) => ({ label: item.name, value: item._id }));
@@ -48,6 +42,10 @@ const UserEditing = () => {
         api.professions.fetchAll().then((data) => setProfessions(data));
         api.qualities.fetchAll().then((data) => setQualities(data));
     }, []);
+
+    useEffect(() => {
+        if (data._id) setIsLoading(false);
+    }, [data]);
 
     const getProfessionById = (id) => {
         for (const prof in professions) {
@@ -87,7 +85,6 @@ const UserEditing = () => {
 
     useEffect(() => {
         validate();
-        if (data._id) setIsLoading(false);
     }, [data]);
 
     const handleChange = (target) => {
@@ -111,10 +108,10 @@ const UserEditing = () => {
 
     return (
         <>
-            {!isLoading && Object.keys(professions).length > 0 ? (
-                <div className="container mt-5">
-                    <div className="row">
-                        <div className="col-md-6 offset-md-3 shadow p-4">
+            <div className="container mt-5">
+                <div className="row">
+                    <div className="col-md-6 offset-md-3 shadow p-4">
+                        {!isLoading ? (
                             <form onSubmit={handleSubmit}>
                                 <label className="form-label">
                                     <h2>Форма редактирования</h2>
@@ -137,7 +134,8 @@ const UserEditing = () => {
                                     options={professions}
                                     onChange={handleChange}
                                     defaultOption="Choose..."
-                                    value={data.profession._id}
+                                    value={data.profession}
+                                    name="profession"
                                 />
                                 <RadioField
                                     options={[
@@ -164,17 +162,14 @@ const UserEditing = () => {
                                     Применить изменения
                                 </button>
                             </form>
-                        </div>
+                        ) : (
+                            <Loading />
+                        )}
                     </div>
                 </div>
-            ) : (
-                <Loading />
-            )}
+            </div>
         </>
     );
 };
 
-// UserEditing.propTypes = {
-//     user: PropTypes.object.isRequired
-// };
 export default UserEditing;
