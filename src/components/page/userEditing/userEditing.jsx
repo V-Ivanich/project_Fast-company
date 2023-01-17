@@ -108,10 +108,10 @@ const UserEditing = () => {
 
     return (
         <>
-            <div className="container mt-5">
-                <div className="row">
-                    <div className="col-md-6 offset-md-3 shadow p-4">
-                        {!isLoading ? (
+            {!isLoading ? (
+                <div className="container mt-5">
+                    <div className="row">
+                        <div className="col-md-6 offset-md-3 shadow p-4">
                             <form onSubmit={handleSubmit}>
                                 <label className="form-label">
                                     <h2>Форма редактирования</h2>
@@ -162,12 +162,12 @@ const UserEditing = () => {
                                     Применить изменения
                                 </button>
                             </form>
-                        ) : (
-                            <Loading />
-                        )}
+                        </div>
                     </div>
                 </div>
-            </div>
+            ) : (
+                <Loading />
+            )}
         </>
     );
 };
