@@ -1,28 +1,47 @@
 import React, { useEffect, useState } from "react";
-import photo from "../../../image/ava.png";
-import Qualities from "../../ui/qualities";
+import QualitiesCard from "../../ui/qualitiesCard";
+import UserCard from "../../ui/userCard";
+import MeetingsCard from "../../ui/meetingsCard";
+import Comments from "../../ui/comments";
 import PropTypes from "prop-types";
 import api from "../../../api";
 import Loading from "../../ui/loading";
-import { useHistory } from "react-router-dom";
 
 const UserPage = ({ userId }) => {
     const [user, setUser] = useState();
 
-    const history = useHistory();
-
     useEffect(() => {
         api.users.getById(userId).then((data) => setUser(data));
-    });
-
-    const handleClick = () => {
-        history.push(history.location.pathname + "/edit");
-    };
+    }, []);
 
     if (user) {
         return (
-            <>
-                <div className="container mt-4">
+            <div className="container">
+                <div className="row gutters-sm">
+                    <div className="col-md-4 mb-3">
+                        <UserCard user={user} />
+                        <QualitiesCard data={user.qualities} />
+                        <MeetingsCard value={user.completedMeetings} />
+                    </div>
+                    <div className="col-md-8">
+                        <Comments />
+                    </div>
+                </div>
+            </div>
+        );
+    } else {
+        return <Loading />;
+    }
+};
+
+UserPage.propTypes = {
+    userId: PropTypes.string.isRequired
+};
+
+export default UserPage;
+
+{
+    /* <div className="container mt-4">
                     <div className="row">
                         <div
                             className="col-md-3 offset-md-4 shadow p-3"
@@ -75,15 +94,5 @@ const UserPage = ({ userId }) => {
                             </div>
                         </div>
                     </div>
-                </div>
-            </>
-        );
-    } else {
-        return <Loading />;
-    }
-};
-UserPage.propTypes = {
-    userId: PropTypes.string.isRequired
-};
-
-export default UserPage;
+                </div> */
+}
