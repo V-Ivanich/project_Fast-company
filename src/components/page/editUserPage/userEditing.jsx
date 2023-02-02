@@ -7,9 +7,9 @@ import SelectField from "../../common/form/selectField";
 import RadioField from "../../common/form/radioField";
 import MultiSelectField from "../../common/form/multiSelectField";
 import Loading from "../../ui/loading";
-// import PropTypes from "prop-types";
+import BackHistoryButton from "../../common/backButton";
 
-const UserEditing = () => {
+const EditUserPage = () => {
     const { userId } = useParams();
     const history = useHistory();
     const [isLoading, setIsLoading] = useState(false);
@@ -110,6 +110,7 @@ const UserEditing = () => {
         <>
             {!isLoading ? (
                 <div className="container mt-5">
+                    <BackHistoryButton />
                     <div className="row">
                         <div className="col-md-6 offset-md-3 shadow p-4">
                             <form onSubmit={handleSubmit}>
@@ -172,4 +173,4 @@ const UserEditing = () => {
     );
 };
 
-export default UserEditing;
+export default EditUserPage;
