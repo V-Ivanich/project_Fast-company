@@ -1,6 +1,6 @@
 import { orderBy } from "lodash";
 import React, { useState, useEffect } from "react";
-import API from "../../api";
+import api from "../../api";
 import { useParams } from "react-router-dom";
 import CommentsList, { AddCommentForm } from "../common/comments";
 
@@ -8,25 +8,27 @@ const Comments = () => {
     const { userId } = useParams();
     const [comments, setComments] = useState([]);
     useEffect(() => {
-        API.comments
+        api.comments
             .fetchCommentsForUser(userId)
             .then((data) => setComments(data));
     }, []);
 
     const handleSubmit = (data) => {
-        API.comments
+        api.comments
             .add({ ...data, pageId: userId })
             .then((data) => setComments([...comments, data]));
     };
 
     const handleRemoveComment = (id) => {
-        API.comments.remove(id).then((id) => {
-            setComments(comments.filter((x) => x.id !== id));
-        });
+        api.comments
+            .remove(id)
+            .then((id) =>
+                setComments(comments.filter((comment) => comment._id !== id))
+            );
     };
 
     const sortedComments = orderBy(comments, ["created_at"], ["desc"]);
-
+    console.log("sortCom", sortedComments);
     return (
         <>
             <div className="card mb-2">

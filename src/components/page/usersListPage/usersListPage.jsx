@@ -6,24 +6,36 @@ import PropTypes from "prop-types";
 import api from "../../../api";
 import SearchStatus from "../../ui/searchStatus";
 import UserTable from "../../ui/usersTable";
-import Loading from "../../ui/loading";
 import _ from "lodash";
 
 const UsersListPage = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [professions, setProfessions] = useState();
+    const [searchQuery, setSearchQuery] = useState("");
     const [selectedProf, setSelectedProf] = useState();
-    const [sortBy, setSortBy] = useState({ iter: "name", order: "asc" });
+    const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
     const pageSize = 8;
     let userCrop = 0;
     let sortedUsers = {};
     const [users, setUsers] = useState();
 
-    const [searchQuery, setSearchQuery] = useState("");
-
     useEffect(() => {
         api.users.fetchAll().then((data) => setUsers(data));
     }, []);
+    const handleDelete = (usersId) => {
+        const usersItems = users.filter((user) => user._id !== usersId);
+        setUsers(usersItems);
+    };
+
+    const handleToggleBookMark = (idItem) => {
+        const newArray = users.map((usersItems) => {
+            if (usersItems._id === idItem) {
+                return { ...usersItems, bookmark: !usersItems.bookmark };
+            }
+            return usersItems;
+        });
+        setUsers(newArray);
+    };
 
     useEffect(() => {
         api.professions.fetchAll().then((data) => setProfessions(data));
@@ -32,30 +44,6 @@ const UsersListPage = () => {
     useEffect(() => {
         setCurrentPage(1);
     }, [selectedProf, searchQuery]);
-
-    const handleDelete = (usersId) => {
-        const usersItems = users.filter((user) => user._id !== usersId);
-        setUsers(usersItems);
-    };
-
-    const handleToggleBookMark = (idItem) => {
-        setUsers(
-            users.map((usersItems) => {
-                if (usersItems._id === idItem) {
-                    usersItems.bookmark = !usersItems.bookmark;
-                }
-                return usersItems;
-            })
-        );
-    };
-
-    const handlePageChange = (pageIndex) => {
-        setCurrentPage(pageIndex);
-    };
-
-    const handleSort = (item) => {
-        setSortBy(item);
-    };
 
     const handleProfessionSelect = (item) => {
         if (searchQuery !== "") setSearchQuery("");
@@ -67,13 +55,21 @@ const UsersListPage = () => {
         setSearchQuery(target.value);
     };
 
+    const handlePageChange = (pageIndex) => {
+        setCurrentPage(pageIndex);
+    };
+
+    const handleSort = (item) => {
+        setSortBy(item);
+    };
+
     useEffect(() => {
         if (userCrop.length === 0 && currentPage !== 1) {
             setCurrentPage((page) => page - 1);
         }
     }, [sortedUsers]);
 
-    if (!users) return <Loading />;
+    if (!users) return "Loading...";
 
     const filteredUsers = searchQuery
         ? users.filter(

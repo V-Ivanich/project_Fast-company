@@ -11,6 +11,7 @@ const Comment = ({
 }) => {
     const [user, setUser] = useState();
     const [isLoading, setIsLoading] = useState(false);
+
     useEffect(() => {
         setIsLoading(true);
         API.users.getById(userId).then((data) => {
@@ -19,12 +20,13 @@ const Comment = ({
         });
     }, []);
 
+    console.log("comment -user", user);
+    console.log("com-id", id, "content", content);
+
     return (
-        <div className="bg-light card-body  mb-3">
+        <div className="bg-light card-body mb-3">
             <div className="row">
-                {isLoading ? (
-                    "Loading ..."
-                ) : (
+                {!isLoading ? (
                     <div className="col">
                         <div className="d-flex flex-start ">
                             <img
@@ -59,6 +61,8 @@ const Comment = ({
                             </div>
                         </div>
                     </div>
+                ) : (
+                    "Loading ..."
                 )}
             </div>
         </div>
