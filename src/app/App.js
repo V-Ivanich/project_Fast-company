@@ -1,9 +1,10 @@
 import React from "react";
-import Users from "./components/layouts/users";
+import Users from "./layouts/users";
 import NavBar from "./components/ui/navBar";
-import Main from "./components/layouts/main";
-import Login from "./components/layouts/login";
+import Main from "./layouts/main";
+import Login from "./layouts/login";
 import { Switch, Route, Redirect } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
 const App = () => {
     return (
@@ -15,6 +16,7 @@ const App = () => {
                 <Route path="/login/:type?" component={Login} />
                 <Redirect to="/" />
             </Switch>
+            <ToastContainer />
         </>
     );
 };

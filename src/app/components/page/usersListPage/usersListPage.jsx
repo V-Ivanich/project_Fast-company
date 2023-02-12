@@ -7,6 +7,7 @@ import api from "../../../api";
 import SearchStatus from "../../ui/searchStatus";
 import UserTable from "../../ui/usersTable";
 import _ from "lodash";
+import { useUser } from "../../../hooks/useUsers";
 
 const UsersListPage = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -17,14 +18,13 @@ const UsersListPage = () => {
     const pageSize = 8;
     let userCrop = 0;
     let sortedUsers = {};
-    const [users, setUsers] = useState();
 
-    useEffect(() => {
-        api.users.fetchAll().then((data) => setUsers(data));
-    }, []);
+    const { users } = useUser();
+    console.log(users);
+
     const handleDelete = (usersId) => {
-        const usersItems = users.filter((user) => user._id !== usersId);
-        setUsers(usersItems);
+        // setUsers(users.filter((user) => user._id !== usersId));
+        console.log(usersId);
     };
 
     const handleToggleBookMark = (idItem) => {
@@ -34,7 +34,8 @@ const UsersListPage = () => {
             }
             return usersItems;
         });
-        setUsers(newArray);
+        // setUsers(newArray);
+        console.log(newArray);
     };
 
     useEffect(() => {
