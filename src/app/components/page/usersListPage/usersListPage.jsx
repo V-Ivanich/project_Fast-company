@@ -20,7 +20,6 @@ const UsersListPage = () => {
     let sortedUsers = {};
 
     const { users } = useUser();
-    console.log(users);
 
     const handleDelete = (usersId) => {
         // setUsers(users.filter((user) => user._id !== usersId));
