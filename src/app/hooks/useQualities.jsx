@@ -26,14 +26,12 @@ export const QualitiesProvider = ({ children }) => {
     }, [error]);
 
     function getQuality(id) {
-        console.log("qual", id);
         return qualities.find((qual) => qual._id === id);
     }
 
     async function getQualitiesList() {
         try {
-            const { content } = await qualityService.get();
-            console.log("qual", content);
+            const { content } = await qualityService.getAll();
             setQualities(content);
             setLoading(false);
         } catch (error) {
