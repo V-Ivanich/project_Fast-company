@@ -1,21 +1,21 @@
 import React, { useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import userService from "../services/user.service";
+import qualityService from "../services/qualities.service";
 import { toast } from "react-toastify";
 
-const UserContext = React.createContext();
+const QualitiesContext = React.createContext();
 
-export const useUser = () => {
-    return useContext(UserContext);
+export const useQualities = () => {
+    return useContext(QualitiesContext);
 };
 
-const UserProvider = ({ children }) => {
-    const [users, setUsers] = useState([]);
+export const QualitiesProvider = ({ children }) => {
     const [isLoading, setLoading] = useState(true);
+    const [qualities, setQualities] = useState([]);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        getUsers();
+        getQualitiesList();
     }, []);
 
     useEffect(() => {
@@ -25,10 +25,16 @@ const UserProvider = ({ children }) => {
         }
     }, [error]);
 
-    async function getUsers() {
+    function getQuality(id) {
+        console.log("qual", id);
+        return qualities.find((qual) => qual._id === id);
+    }
+
+    async function getQualitiesList() {
         try {
-            const { content } = await userService.get();
-            setUsers(content);
+            const { content } = await qualityService.get();
+            console.log("qual", content);
+            setQualities(content);
             setLoading(false);
         } catch (error) {
             errorCatcher(error);
@@ -39,17 +45,17 @@ const UserProvider = ({ children }) => {
         const { message } = error.response.data;
         setError(message);
     }
+
     return (
-        <UserContext.Provider value={{ users }}>
-            {!isLoading ? children : "loading..."}
-        </UserContext.Provider>
+        <QualitiesContext.Provider value={{ isLoading, getQuality }}>
+            {children}
+        </QualitiesContext.Provider>
     );
 };
 
-UserProvider.propTypes = {
+QualitiesProvider.propTypes = {
     children: PropTypes.oneOfType([
         PropTypes.arrayOf(PropTypes.node),
         PropTypes.node
     ])
 };
-export default UserProvider;

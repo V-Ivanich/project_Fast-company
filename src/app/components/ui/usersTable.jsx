@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import BookMark from "../common/bookMark";
-import Qualities from "./qualities";
+import QualitiesList from "./qualities/qualitiesList";
 import Table from "../common/table";
 import { Link } from "react-router-dom";
 import Profession from "./profession";
@@ -17,7 +17,6 @@ const UserTable = ({
         name: {
             path: "name",
             name: "Имя",
-            icons: false,
             component: (user) => (
                 <Link to={`/users/${user._id}`}>{user.name}</Link>
             )
@@ -25,31 +24,27 @@ const UserTable = ({
 
         qualities: {
             name: "Качества",
-            component: (user) => <Qualities qualities={user.qualities} />
+            component: (user) => <QualitiesList id={user.qualities} />
         },
 
         profession: {
             component: (user) => <Profession id={user.profession} />,
-            name: "Профессия",
-            icons: false
+            name: "Профессия"
         },
 
         completedMeetings: {
             path: "completedMeetings",
-            name: "Встреч,кол-во",
-            icons: false
+            name: "Встреч,кол-во"
         },
 
         rate: {
             path: "rate",
-            name: "Оценка",
-            icons: false
+            name: "Оценка"
         },
 
         bookmark: {
             path: "bookmark",
             name: "Избранное",
-            icons: false,
             component: (user) => (
                 <BookMark
                     onClick={() => onToggleBookMark(user._id)}
