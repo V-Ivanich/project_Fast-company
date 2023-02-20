@@ -20,9 +20,6 @@ const Comment = ({
         });
     }, []);
 
-    console.log("comment -user", user);
-    console.log("com-id", id, "content", content);
-
     return (
         <div className="bg-light card-body mb-3">
             <div className="row">
