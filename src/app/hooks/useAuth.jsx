@@ -17,7 +17,7 @@ const AuthProvider = ({ children }) => {
     const [error, setError] = useState(null);
 
     async function singUp({ email, password, ...rest }) {
-        const url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCZWYzlyfBvWcUYO-Ads1MPQ9TrwPyy848`;
+        const url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.REACT_APP_FIREBASE_KEY}`;
         try {
             const { data } = await httpAuth.post(url, {
                 email,
@@ -33,6 +33,35 @@ const AuthProvider = ({ children }) => {
                 if (message === "EMAIL_EXISTS") {
                     const errorObject = {
                         email: "Пользователь с таким Email уже существует"
+                    };
+                    throw errorObject;
+                }
+            }
+        }
+    }
+
+    async function singIn({ email, password }) {
+        const url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.REACT_APP_FIREBASE_KEY}`;
+        try {
+            const { data } = await httpAuth.post(url, {
+                email,
+                password,
+                returnSecureToken: true
+            });
+            setToken(data);
+        } catch (error) {
+            errorCatcher(error);
+            const { code, message } = error.response.data.error;
+            if (code === 400) {
+                if (message === "INVALID_PASSWORD") {
+                    const errorObject = {
+                        password: "Неверный пароль"
+                    };
+                    throw errorObject;
+                }
+                if (message === "EMAIL_NOT_FOUND") {
+                    const errorObject = {
+                        email: "Несуществующий Email"
                     };
                     throw errorObject;
                 }
@@ -61,7 +90,7 @@ const AuthProvider = ({ children }) => {
         }
     }, [error]);
     return (
-        <AuthContext.Provider value={{ singUp, currentUser }}>
+        <AuthContext.Provider value={{ singUp, singIn, currentUser }}>
             {children}
         </AuthContext.Provider>
     );
