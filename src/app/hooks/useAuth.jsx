@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import localStorageService, {
     setToken
 } from "../services/localStorage.service";
+import { useHistory } from "react-router-dom";
 
 export const httpAuth = axios.create({
     baseURL: "https://identitytoolkit.googleapis.com/v1/",
@@ -20,6 +21,8 @@ export const useAuth = () => {
 const AuthProvider = ({ children }) => {
     const [currentUser, setUser] = useState();
     const [error, setError] = useState(null);
+    const [isLoading, setLoading] = useState(true);
+    const history = useHistory();
 
     function randomInt(min, max) {
         return Math.floor(Math.random() * (max - min + 1) + min);
@@ -65,7 +68,7 @@ const AuthProvider = ({ children }) => {
                 }
             );
             setToken(data);
-            getUserData();
+            await getUserData();
         } catch (error) {
             errorCatcher(error);
             const { code, message } = error.response.data.error;
@@ -84,6 +87,11 @@ const AuthProvider = ({ children }) => {
         }
     }
 
+    function logOut() {
+        localStorageService.removeAuthData();
+        setUser(null);
+        history.push("/");
+    }
     async function createUser(data) {
         try {
             const { content } = await userService.create(data);
@@ -105,12 +113,16 @@ const AuthProvider = ({ children }) => {
             setUser(content);
         } catch (error) {
             errorCatcher(error);
+        } finally {
+            setLoading(false);
         }
     }
 
     useEffect(() => {
         if (localStorageService.getAccessToken()) {
             getUserData();
+        } else {
+            setLoading(false);
         }
     }, []);
     useEffect(() => {
@@ -120,8 +132,8 @@ const AuthProvider = ({ children }) => {
         }
     }, [error]);
     return (
-        <AuthContext.Provider value={{ singUp, singIn, currentUser }}>
-            {children}
+        <AuthContext.Provider value={{ singUp, singIn, currentUser, logOut }}>
+            {!isLoading ? children : "loading..."}
         </AuthContext.Provider>
     );
 };

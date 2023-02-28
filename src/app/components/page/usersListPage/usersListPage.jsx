@@ -111,7 +111,7 @@ const UsersListPage = () => {
                 </div>
             )}
             <div className="d-flex flex-column">
-                <SearchStatus length={count} />
+                <SearchStatus length={count} className="w-100" />
                 <input
                     className="mb-1 px-2"
                     type="text"
