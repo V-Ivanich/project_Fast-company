@@ -4,7 +4,7 @@ import CommentsList, { AddCommentForm } from "../common/comments";
 import { useComments } from "../../hooks/useComments";
 
 const Comments = () => {
-    const { createComments, comments } = useComments();
+    const { createComments, comments, removeComment } = useComments();
 
     const handleSubmit = (data) => {
         createComments(data);
@@ -14,6 +14,7 @@ const Comments = () => {
     };
 
     const handleRemoveComment = (id) => {
+        removeComment(id);
         // api.comments
         //     .remove(id)
         //     .then((id) =>
@@ -22,7 +23,6 @@ const Comments = () => {
     };
 
     const sortedComments = orderBy(comments, ["created_at"], ["desc"]);
-    console.log("sortCom", sortedComments);
     return (
         <>
             <div className="card mb-2">
