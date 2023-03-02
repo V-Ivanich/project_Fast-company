@@ -1,40 +1,67 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
+import NavProfile from "./navProfile";
 
 const NavBar = () => {
+    const { currentUser } = useAuth();
     return (
-        <>
+        <nav className="navbar">
             <div
-                className="container pl-3 mt-2"
+                className="container-fluid pl-3 mt-2"
                 style={{
+                    height: "60px",
                     background: "#dcdcdc",
                     borderRadius: "6px",
                     borderBottom: "2px solid #87ceeb"
                 }}
             >
-                <ul className="nav">
-                    <li className="nav-item">
-                        <Link className="nav-link" to="/">
-                            Main
-                        </Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link className="nav-link" to="/login">
-                            Login
-                        </Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link
-                            className="nav-link"
-                            aria-current="page"
-                            to="/users"
-                        >
-                            Users
-                        </Link>
-                    </li>
-                </ul>
+                <div className="container d-flex justify-content-between">
+                    <ul
+                        className="nav"
+                        style={{ display: "flex", alignItems: "center" }}
+                    >
+                        <li className="nav-item">
+                            <Link
+                                className="nav-link"
+                                aria-current="page"
+                                to="/"
+                            >
+                                Main
+                            </Link>
+                        </li>
+                        {currentUser && (
+                            <li className="nav-item">
+                                <Link
+                                    className="nav-link"
+                                    aria-current="page"
+                                    to="/users"
+                                >
+                                    Users
+                                </Link>
+                            </li>
+                        )}
+                    </ul>
+                    <div>
+                        {currentUser ? (
+                            <NavProfile />
+                        ) : (
+                            <Link
+                                className="nav-link"
+                                style={{
+                                    display: "flex",
+                                    alignItems: "center"
+                                }}
+                                aria-current="page"
+                                to="/login"
+                            >
+                                Login
+                            </Link>
+                        )}
+                    </div>
+                </div>
             </div>
-        </>
+        </nav>
     );
 };
 
