@@ -14,28 +14,69 @@ const EditUserPage = () => {
     const { userId } = useParams();
     console.log(userId);
     const { currentUser } = useAuth();
-
-    const { qualities, isLoading: loadingQual } = useQualities();
-    const qualitiesList = qualities.map((qual) => ({
-        label: qual.name,
-        value: qual._id,
-        color: qual.color
-    }));
+    const [data, setData] = useState({
+        name: "",
+        email: "",
+        profession: "",
+        sex: "male",
+        qualities: []
+    });
 
     const { professions, isLoading: loadingProf } = useProfessions();
-    const professionsList = professions.map((prof) => ({
-        label: prof.name,
-        value: prof._id
-    }));
+    const professionsList =
+        !loadingProf &&
+        professions.map((prof) => ({
+            label: prof.name,
+            value: prof._id
+        }));
+
+    const { qualities, isLoading: loadingQual, getQuality } = useQualities();
+    const qualitiesList =
+        !loadingQual &&
+        qualities.map((qual) => ({
+            label: qual.name,
+            value: qual._id,
+            color: qual.color
+        }));
+
     console.log(currentUser, qualitiesList, professionsList);
     // const history = useHistory();
     const [isLoading, setIsLoading] = useState(false);
 
-    const [data, setData] = useState();
-
     // const [qualitys, setQualities] = useState([]);
     const [errors, setErrors] = useState({});
     // const [proffession, setProfession] = useState([]);
+
+    const transformData = (data) => {
+        return data.map((item) => ({
+            label: getQuality(item).name,
+            value: getQuality(item)._id
+        }));
+    };
+
+    useEffect(() => {
+        if (!loadingQual && !loadingProf && currentUser) {
+            // const { profession, qualities } = currentUser;
+            // const qualitiesList = Object.keys(qualities).map((optionName) => ({
+            //     value: qualities[optionName]._id,
+            //     label: qualities[optionName].name,
+            //     color: qualities[optionName].color
+            // }));
+            // const professionsList = Object.keys(profession).map(
+            //     (professionName) => ({
+            //         label: profession[professionName].name,
+            //         value: profession[professionName]._id
+            //     })
+            // );
+            setData({
+                ...currentUser,
+                qualities: transformData(currentUser.qualities)
+            });
+        }
+
+        console.log("lists", qualitiesList, professionsList);
+        console.log("data", data);
+    }, [currentUser, qualities, professions]);
 
     // const getProfessionById = (id) => {
     //     for (const prof of professions) {
@@ -55,7 +96,7 @@ const EditUserPage = () => {
     //     }
     //     return qualitiesArray;
     // };
-    // // const getQualities = (elements) => {
+    // const getQualities = (elements) => {
     //     const qualitiesArray = [];
     //     for (const elem of elements) {
     //         for (const quality in qualities) {
@@ -90,43 +131,6 @@ const EditUserPage = () => {
         //     qualities: getQualities(qualities)
         // });
     };
-
-    // const transformData = (data) => {
-    //     return getQualities(data).map((item) => ({
-    //         label: item.name,
-    //         color: item.color,
-    //         value: item._id
-    //     }));
-    // };
-
-    // const transformData = (data) => {
-    //     return data.map((item) => ({ label: item.name, value: item._id }));
-    // };
-    useEffect(() => {
-        if (loadingProf && loadingQual && currentUser && !data) {
-            const { profession, qualities } = currentUser;
-            const qualitiesList = Object.keys(qualities).map((optionName) => ({
-                value: qualities[optionName]._id,
-                label: qualities[optionName].name,
-                color: qualities[optionName].color
-            }));
-            const professionsList = Object.keys(profession).map(
-                (professionName) => ({
-                    label: profession[professionName].name,
-                    value: profession[professionName]._id
-                })
-            );
-            setData({
-                ...currentUser,
-                qualities: qualitiesList,
-                profession: professionsList
-            });
-        }
-
-        // setProfession(professionsList);
-        // setQualities(qualitiesList);
-        console.log("data", data);
-    }, [professions, data]);
 
     // useEffect(() => {
     //     setIsLoading(true);
@@ -199,7 +203,7 @@ const EditUserPage = () => {
             <BackHistoryButton />
             <div className="row">
                 <div className="col-md-6 offset-md-3 shadow p-4">
-                    {!isLoading && Object.keys(professions).length > 0 ? (
+                    {currentUser && !loadingQual && !loadingProf ? (
                         <form onSubmit={handleSubmit}>
                             <label className="form-label">
                                 <h2>Форма редактирования</h2>
