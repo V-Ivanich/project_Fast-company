@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 
 const UserCard = ({ user }) => {
+    console.log("user->", user);
     const history = useHistory();
     const { currentUser } = useAuth();
     const handleClick = () => {
