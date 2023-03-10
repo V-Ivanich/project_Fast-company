@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import { validator } from "../../../utils/validator";
 import TextField from "../../common/form/textField";
 import SelectField from "../../common/form/selectField";
@@ -11,16 +10,7 @@ import { useProfessions } from "../../../hooks/useProfession";
 import { useAuth } from "../../../hooks/useAuth";
 
 const EditUserPage = () => {
-    const { userId } = useParams();
-    console.log(userId);
     const { currentUser } = useAuth();
-    const [data, setData] = useState({
-        name: "",
-        email: "",
-        profession: "",
-        sex: "male",
-        qualities: []
-    });
 
     const { professions, isLoading: loadingProf } = useProfessions();
     const professionsList =
@@ -39,43 +29,29 @@ const EditUserPage = () => {
             color: qual.color
         }));
 
-    console.log(currentUser, qualitiesList, professionsList);
     // const history = useHistory();
     const [isLoading, setIsLoading] = useState(false);
 
-    // const [qualitys, setQualities] = useState([]);
     const [errors, setErrors] = useState({});
-    // const [proffession, setProfession] = useState([]);
 
     const transformData = (data) => {
         return data.map((item) => ({
             label: getQuality(item).name,
-            value: getQuality(item)._id
+            value: getQuality(item)._id,
+            color: getQuality(item).color
         }));
     };
+    const [data, setData] = useState({});
 
     useEffect(() => {
         if (!loadingQual && !loadingProf && currentUser) {
-            // const { profession, qualities } = currentUser;
-            // const qualitiesList = Object.keys(qualities).map((optionName) => ({
-            //     value: qualities[optionName]._id,
-            //     label: qualities[optionName].name,
-            //     color: qualities[optionName].color
-            // }));
-            // const professionsList = Object.keys(profession).map(
-            //     (professionName) => ({
-            //         label: profession[professionName].name,
-            //         value: profession[professionName]._id
-            //     })
-            // );
-            setData({
+            setData((prevState) => ({
+                ...prevState,
                 ...currentUser,
                 qualities: transformData(currentUser.qualities)
-            });
+            }));
         }
-
-        console.log("lists", qualitiesList, professionsList);
-        console.log("data", data);
+        console.log("data-quality", data.qualities);
     }, [currentUser, qualities, professions]);
 
     // const getProfessionById = (id) => {
@@ -203,7 +179,9 @@ const EditUserPage = () => {
             <BackHistoryButton />
             <div className="row">
                 <div className="col-md-6 offset-md-3 shadow p-4">
-                    {currentUser && !loadingQual && !loadingProf ? (
+                    {currentUser &&
+                    data.qualities !== undefined &&
+                    !loadingProf ? (
                         <form onSubmit={handleSubmit}>
                             <label className="form-label">
                                 <h2>Форма редактирования</h2>
@@ -243,9 +221,9 @@ const EditUserPage = () => {
                                 onChange={handleChange}
                             />
                             <MultiSelectField
+                                defaultValue={data.qualities}
                                 options={qualitiesList}
                                 onChange={handleChange}
-                                defaultValue={data.qualities}
                                 name="qualities"
                                 label="Качества"
                             />
