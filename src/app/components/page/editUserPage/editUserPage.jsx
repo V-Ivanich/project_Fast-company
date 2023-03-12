@@ -5,12 +5,15 @@ import SelectField from "../../common/form/selectField";
 import RadioField from "../../common/form/radioField";
 import MultiSelectField from "../../common/form/multiSelectField";
 import BackHistoryButton from "../../common/backButton";
+import { useHistory, useParams } from "react-router-dom";
 import { useQualities } from "../../../hooks/useQualities";
 import { useProfessions } from "../../../hooks/useProfession";
 import { useAuth } from "../../../hooks/useAuth";
 
 const EditUserPage = () => {
-    const { currentUser } = useAuth();
+    const { currentUser, setUpDate } = useAuth();
+    const history = useHistory();
+    const { userId: id } = useParams();
 
     const { professions, isLoading: loadingProf } = useProfessions();
     const professionsList =
@@ -29,9 +32,7 @@ const EditUserPage = () => {
             color: qual.color
         }));
 
-    // const history = useHistory();
     const [isLoading, setIsLoading] = useState(false);
-
     const [errors, setErrors] = useState({});
 
     const transformData = (data) => {
@@ -51,89 +52,18 @@ const EditUserPage = () => {
                 qualities: transformData(currentUser.qualities)
             }));
         }
-        console.log("data-quality", data.qualities);
     }, [currentUser, qualities, professions]);
-
-    // const getProfessionById = (id) => {
-    //     for (const prof of professions) {
-    //         if (prof.value === id) {
-    //             return { _id: prof.value, name: prof.label };
-    //         }
-    //     }
-    // };
-    // const getQualities = (elements) => {
-    //     const qualitiesArray = [];
-    //     for (const elem of elements) {
-    //         for (const quality in qualities) {
-    //             if (elem === qualities[quality]._id) {
-    //                 qualitiesArray.push(qualities[quality]);
-    //             }
-    //         }
-    //     }
-    //     return qualitiesArray;
-    // };
-    // const getQualities = (elements) => {
-    //     const qualitiesArray = [];
-    //     for (const elem of elements) {
-    //         for (const quality in qualities) {
-    //             if (elem.value === qualities[quality].value) {
-    //                 qualitiesArray.push({
-    //                     _id: qualities[quality].value,
-    //                     name: qualities[quality].label,
-    //                     color: qualities[quality].color
-    //                 });
-    //             }
-    //         }
-    //     }
-    //     return qualitiesArray;
-    // };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("handle", data);
-        // const isValid = validate();
-        // if (!isValid) return;
-        // const { profession, qualities } = data;
-        // api.users
-        //     .update(userId, {
-        //         ...data,
-        //         professions: getProfessionById(profession),
-        //         qualities: getQualities(qualities)
-        //     })
-        //     .then((data) => history.push(`/users/${data._id}`));
-        // console.log({
-        //     ...data,
-        //     profession: getProfessionById(profession),
-        //     qualities: getQualities(qualities)
-        // });
+        console.log(data);
+        const isValid = validate();
+        if (!isValid) return;
+        const { qualities } = data;
+        const upDateUser = qualities.map((qual) => qual.value);
+        setUpDate({ ...data, qualities: upDateUser });
+        history.replace(`/users/${id}`);
     };
-
-    // useEffect(() => {
-    //     setIsLoading(true);
-    //     api.users.getById(userId).then(({ profession, qualities, ...data }) =>
-    //         setData((prevState) => ({
-    //             ...prevState,
-    //             ...data,
-    //             qualities: transformData(qualities),
-    //             profession: profession._id
-    //         }))
-    //     );
-    //     api.professions.fetchAll().then((data) => {
-    //         const professionsList = Object.keys(data).map((professionName) => ({
-    //             label: data[professionName].name,
-    //             value: data[professionName]._id
-    //         }));
-    //         setProfession(professionsList);
-    //     });
-    //     api.qualities.fetchAll().then((data) => {
-    //         const qualitiesList = Object.keys(data).map((optionName) => ({
-    //             value: data[optionName]._id,
-    //             label: data[optionName].name,
-    //             color: data[optionName].color
-    //         }));
-    //         setQualities(qualitiesList);
-    //     });
-    // }, []);
 
     useEffect(() => {
         if (data && isLoading) setIsLoading(false);
