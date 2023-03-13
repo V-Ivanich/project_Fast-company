@@ -56,7 +56,6 @@ const EditUserPage = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(data);
         const isValid = validate();
         if (!isValid) return;
         const { qualities } = data;
