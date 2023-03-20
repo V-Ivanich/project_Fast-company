@@ -27,7 +27,7 @@ const { reducer: qualitiesReducer, actions } = qualitiesSlice;
 const { qualitiesRequested, qualitiesReceved, qualitiesRequestFiled } = actions;
 
 export const loadQualitiesList = () => async (dispatch) => {
-    dispatch(qualitiesReceved());
+    dispatch(qualitiesRequested());
 
     try {
         const { content } = await qualityService.fetchAll();
@@ -36,5 +36,9 @@ export const loadQualitiesList = () => async (dispatch) => {
         dispatch(qualitiesRequestFiled(error.message));
     }
 };
+
+export const getQualities = () => (state) => state.qualities.entities;
+export const getQualitiesLoadingStatus = () => (state) =>
+    state.qualities.isLoading;
 
 export default qualitiesReducer;

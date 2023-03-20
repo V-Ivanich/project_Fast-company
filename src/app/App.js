@@ -16,7 +16,7 @@ import { loadQualitiesList } from "./store/qualities";
 const App = () => {
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(loadQualitiesList);
+        dispatch(loadQualitiesList());
     }, []);
     return (
         <>

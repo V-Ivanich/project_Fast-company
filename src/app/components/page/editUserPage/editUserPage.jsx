@@ -6,9 +6,13 @@ import RadioField from "../../common/form/radioField";
 import MultiSelectField from "../../common/form/multiSelectField";
 import BackHistoryButton from "../../common/backButton";
 import { useHistory, useParams } from "react-router-dom";
-import { useQualities } from "../../../hooks/useQualities";
 import { useProfessions } from "../../../hooks/useProfession";
 import { useAuth } from "../../../hooks/useAuth";
+import { useSelector } from "react-redux";
+import {
+    getQualities,
+    getQualitiesLoadingStatus
+} from "../../../store/qualities";
 
 const EditUserPage = () => {
     const { currentUser, setUpDate } = useAuth();
@@ -23,7 +27,8 @@ const EditUserPage = () => {
             value: prof._id
         }));
 
-    const { qualities, isLoading: loadingQual, getQuality } = useQualities();
+    const qualities = useSelector(getQualities());
+    const loadingQual = useSelector(getQualitiesLoadingStatus());
     const qualitiesList =
         !loadingQual &&
         qualities.map((qual) => ({
@@ -37,9 +42,9 @@ const EditUserPage = () => {
 
     const transformData = (data) => {
         return data.map((item) => ({
-            label: getQuality(item).name,
-            value: getQuality(item)._id,
-            color: getQuality(item).color
+            label: qualities(item).name,
+            value: qualities(item)._id,
+            color: qualities(item).color
         }));
     };
     const [data, setData] = useState({});
