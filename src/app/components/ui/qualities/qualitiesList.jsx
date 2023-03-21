@@ -1,19 +1,23 @@
 import React from "react";
 import PropType from "prop-types";
 import Quality from "./quality";
-import { useQualities } from "../../../hooks/useQualities";
+import { useSelector } from "react-redux";
+import {
+    getQualitiesByIds,
+    getQualitiesLoadingStatus
+} from "../../../store/qualities";
 
 const QualitiesList = ({ qualities }) => {
-    const { isLoading } = useQualities();
-    if (!isLoading) {
-        return (
-            <>
-                {qualities.map((qual) => (
-                    <Quality key={qual} id={qual} />
-                ))}
-            </>
-        );
-    } else return "Loading...";
+    const isLoading = useSelector(getQualitiesLoadingStatus());
+    if (isLoading) return "Loading...";
+    const qualitiesList = useSelector(getQualitiesByIds(qualities));
+    return (
+        <>
+            {qualitiesList.map((qual) => (
+                <Quality key={qual._id} {...qual} />
+            ))}
+        </>
+    );
 };
 
 QualitiesList.propTypes = {

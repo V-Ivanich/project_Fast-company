@@ -72,16 +72,12 @@ const AuthProvider = ({ children }) => {
     }
 
     async function updateUserData(data) {
-        console.log("data", data);
         const { content } = await userService.update(data);
-        console.log("content-", content);
         setUser(content);
         try {
             const { content } = await userService.update(data);
-            console.log("content-", content);
             setUser(content);
         } catch (error) {
-            console.log("error--");
             errorCatcher(error);
         }
     }
