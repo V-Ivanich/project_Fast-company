@@ -24,43 +24,12 @@ const AuthProvider = ({ children }) => {
     const [isLoading, setLoading] = useState(true);
     const history = useHistory();
 
-    function randomInt(min, max) {
-        return Math.floor(Math.random() * (max - min + 1) + min);
-    }
-
-    async function singUp({ email, password, ...rest }) {
-        try {
-            const { data } = await httpAuth.post(`accounts:signUp`, {
-                email,
-                password,
-                returnSecureToken: true
-            });
-            setToken(data);
-            await createUser({
-                _id: data.localId,
-                email,
-                rate: randomInt(1, 5),
-                completedMeetings: randomInt(0, 200),
-                image: `https://avatars.dicebear.com/api/avataaars/${(
-                    Math.random() + 1
-                )
-                    .toString(36)
-                    .substring(7)}.svg`,
-                ...rest
-            });
-        } catch (error) {
-            errorCatcher(error);
-            const { code, message } = error.response.data.error;
-            if (code === 400) {
-                if (message === "EMAIL_EXISTS") {
-                    const errorObject = {
-                        email: "Пользователь с таким Email уже существует"
-                    };
-                    throw errorObject;
-                }
-            }
+    useEffect(() => {
+        if (error !== null) {
+            toast(error);
+            setError(null);
         }
-    }
+    }, [error]);
 
     async function singIn({ email, password }) {
         try {
@@ -97,6 +66,60 @@ const AuthProvider = ({ children }) => {
         setUser(null);
         history.push("/");
     }
+
+    function randomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+
+    async function updateUserData(data) {
+        console.log("data", data);
+        const { content } = await userService.update(data);
+        console.log("content-", content);
+        setUser(content);
+        try {
+            const { content } = await userService.update(data);
+            console.log("content-", content);
+            setUser(content);
+        } catch (error) {
+            console.log("error--");
+            errorCatcher(error);
+        }
+    }
+
+    async function singUp({ email, password, ...rest }) {
+        try {
+            const { data } = await httpAuth.post(`accounts:signUp`, {
+                email,
+                password,
+                returnSecureToken: true
+            });
+            setToken(data);
+            await createUser({
+                _id: data.localId,
+                email,
+                rate: randomInt(1, 5),
+                completedMeetings: randomInt(0, 200),
+                image: `https://avatars.dicebear.com/api/avataaars/${(
+                    Math.random() + 1
+                )
+                    .toString(36)
+                    .substring(7)}.svg`,
+                ...rest
+            });
+        } catch (error) {
+            errorCatcher(error);
+            const { code, message } = error.response.data.error;
+            if (code === 400) {
+                if (message === "EMAIL_EXISTS") {
+                    const errorObject = {
+                        email: "Пользователь с таким Email уже существует"
+                    };
+                    throw errorObject;
+                }
+            }
+        }
+    }
+
     async function createUser(data) {
         try {
             const { content } = await userService.create(data);
@@ -122,15 +145,6 @@ const AuthProvider = ({ children }) => {
         }
     }
 
-    async function setUpDate(data) {
-        try {
-            const { content } = await userService.upDateUser(data);
-            setUser(content);
-        } catch (error) {
-            errorCatcher(error);
-        }
-    }
-
     useEffect(() => {
         if (localStorageService.getAccessToken()) {
             getUserData();
@@ -138,15 +152,16 @@ const AuthProvider = ({ children }) => {
             setLoading(false);
         }
     }, []);
-    useEffect(() => {
-        if (error !== null) {
-            toast(error);
-            setError(null);
-        }
-    }, [error]);
+
     return (
         <AuthContext.Provider
-            value={{ singUp, singIn, currentUser, logOut, setUpDate }}
+            value={{
+                singUp,
+                singIn,
+                currentUser,
+                logOut,
+                updateUserData
+            }}
         >
             {!isLoading ? children : "loading..."}
         </AuthContext.Provider>
