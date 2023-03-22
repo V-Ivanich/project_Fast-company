@@ -38,7 +38,6 @@ function isOutdated(data) {
 export const loadQualitiesList = () => async (dispatch, getState) => {
     const { lastFetch } = getState().qualities;
     if (isOutdated(lastFetch)) {
-        console.log(lastFetch);
         dispatch(qualitiesRequested());
 
         try {
