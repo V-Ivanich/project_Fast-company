@@ -48,7 +48,7 @@ export const getProfessionsByIds = (professionsIds) => (state) => {
 };
 
 export const getProfessions = () => (state) => state.professions.entities;
-export const getProfessionsLoadingStatus = () => (state) =>
+export const isProfessionsLoadingStatus = () => (state) =>
     state.professions.isLoading;
 
 export default professionsReducer;

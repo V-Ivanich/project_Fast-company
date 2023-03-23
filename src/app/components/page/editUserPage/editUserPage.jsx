@@ -14,7 +14,7 @@ import {
 } from "../../../store/qualities";
 import {
     getProfessions,
-    getProfessionsLoadingStatus
+    isProfessionsLoadingStatus
 } from "../../../store/professions";
 
 const EditUserPage = () => {
@@ -23,7 +23,7 @@ const EditUserPage = () => {
     const [data, setData] = useState();
 
     const professions = useSelector(getProfessions());
-    const loadingProf = useSelector(getProfessionsLoadingStatus());
+    const loadingProf = useSelector(isProfessionsLoadingStatus());
     const professionsList =
         !loadingProf &&
         professions.map((prof) => ({

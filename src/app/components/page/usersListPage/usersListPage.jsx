@@ -11,12 +11,12 @@ import { useAuth } from "../../../hooks/useAuth";
 import { useSelector } from "react-redux";
 import {
     getProfessions,
-    getProfessionsLoadingStatus
+    isProfessionsLoadingStatus
 } from "../../../store/professions";
 
 const UsersListPage = () => {
     const { currentUser } = useAuth();
-    const professionsLoading = useSelector(getProfessionsLoadingStatus());
+    const professionsLoading = useSelector(isProfessionsLoadingStatus());
     const professions = useSelector(getProfessions());
     const [currentPage, setCurrentPage] = useState(1);
     const [searchQuery, setSearchQuery] = useState("");
