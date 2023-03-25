@@ -6,9 +6,9 @@ import PropTypes from "prop-types";
 import SearchStatus from "../../ui/searchStatus";
 import UserTable from "../../ui/usersTable";
 import _ from "lodash";
-import { useUser } from "../../../hooks/useUsers";
 import { useAuth } from "../../../hooks/useAuth";
 import { useSelector } from "react-redux";
+import { getUsersList } from "../../../store/users";
 import {
     getProfessions,
     isProfessionsLoadingStatus
@@ -25,8 +25,6 @@ const UsersListPage = () => {
     const pageSize = 8;
     let userCrop = 0;
     let sortedUsers = {};
-
-    const { users } = useUser();
 
     const handleDelete = (usersId) => {
         // setUsers(users.filter((user) => user._id !== usersId));
