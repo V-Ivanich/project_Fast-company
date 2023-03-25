@@ -7,11 +7,8 @@ import MultiSelectField from "../common/form/multiSelectField";
 import CheckBoxField from "../common/form/checkBoxField";
 import { useDispatch, useSelector } from "react-redux";
 import { signUp } from "../../store/users";
-import { useAuth } from "../../hooks/useAuth";
-import { useHistory } from "react-router-dom";
 import { getQualities } from "../../store/qualities";
 import { getProfessions } from "../../store/professions";
-
 
 const RegisterForm = () => {
     const dispatch = useDispatch();
