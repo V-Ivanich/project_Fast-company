@@ -5,7 +5,7 @@ import UsersListPage from "../components/page/usersListPage";
 import EditUserPage from "../components/page/editUserPage/editUserPage";
 import { useSelector } from "react-redux";
 import { getCurrentUserId } from "../store/users";
-import UserLoader from "../components/ui/hoc/usersLoader";
+import UsersLoader from "../components/ui/hoc/usersLoader";
 
 const Users = () => {
     const { userId, edit } = useParams();
@@ -13,7 +13,7 @@ const Users = () => {
 
     return (
         <>
-            <UserLoader>
+            <UsersLoader>
                 {userId ? (
                     edit ? (
                         userId === currentUserId ? (
@@ -27,7 +27,7 @@ const Users = () => {
                 ) : (
                     <UsersListPage />
                 )}
-            </UserLoader>
+            </UsersLoader>
         </>
     );
 };

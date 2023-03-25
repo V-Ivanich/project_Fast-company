@@ -31,9 +31,9 @@ const UsersListPage = () => {
         console.log(usersId);
     };
 
-    const handleToggleBookMark = (idItem) => {
+    const handleToggleBookMark = (id) => {
         const newArray = users.map((usersItems) => {
-            if (usersItems._id === idItem) {
+            if (usersItems._id === id) {
                 return { ...usersItems, bookmark: !usersItems.bookmark };
             }
             return usersItems;

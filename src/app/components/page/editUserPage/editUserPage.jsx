@@ -23,30 +23,37 @@ const EditUserPage = () => {
     const history = useHistory();
     const [data, setData] = useState();
     const currentUser = useSelector(getCurrentUserData());
-
+    const [isLoading, setIsLoading] = useState(true);
     const professions = useSelector(getProfessions());
     const loadingProf = useSelector(isProfessionsLoadingStatus());
-    const professionsList =
-        !loadingProf &&
-        professions.map((prof) => ({
-            label: prof.name,
-            value: prof._id
-        }));
+    const professionsList = professions.map((prof) => ({
+        label: prof.name,
+        value: prof._id
+    }));
 
     const qualities = useSelector(getQualities());
     const loadingQual = useSelector(getQualitiesLoadingStatus());
-    const qualitiesList =
-        !loadingQual &&
-        qualities.map((qual) => ({
-            label: qual.name,
-            value: qual._id,
-            color: qual.color
-        }));
+    const qualitiesList = qualities.map((qual) => ({
+        label: qual.name,
+        value: qual._id,
+        color: qual.color
+    }));
 
-    const [isLoading, setIsLoading] = useState(true);
     const [errors, setErrors] = useState({});
 
-    function getQualitiesLisyByIds(qualitiesIds) {
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const isValid = validate();
+        if (!isValid) return;
+        await updateUserData({
+            ...data,
+            qualities: data.qualities.map((q) => q.value)
+        });
+
+        history.push(`/users/${currentUser._id}`);
+    };
+
+    function getQualitiesListByIds(qualitiesIds) {
         const qualitiesArray = [];
         for (const qualId of qualitiesIds) {
             for (const quality of qualities) {
@@ -60,7 +67,7 @@ const EditUserPage = () => {
     }
 
     const transformData = (data) => {
-        return getQualitiesLisyByIds(data).map((qual) => ({
+        return getQualitiesListByIds(data).map((qual) => ({
             label: qual.name,
             value: qual._id,
             color: qual.color
@@ -68,29 +75,17 @@ const EditUserPage = () => {
     };
 
     useEffect(() => {
-        if (!loadingQual && !loadingProf && currentUser) {
+        if (!loadingProf && !loadingQual && currentUser && !data) {
             setData({
                 ...currentUser,
                 qualities: transformData(currentUser.qualities)
             });
         }
-    }, [qualities, professions, currentUser]);
+    }, [professions, qualities, currentUser, data]);
 
     useEffect(() => {
         if (data && isLoading) setIsLoading(false);
     }, [data]);
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const isValid = validate();
-        if (!isValid) return;
-        await updateUserData({
-            ...data,
-            qualities: data.qualities.map((q) => q.value)
-        });
-
-        history.push(`/users/${currentUser._id}`);
-    };
 
     const validatorConfig = {
         email: {
