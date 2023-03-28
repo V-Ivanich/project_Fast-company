@@ -1,2 +1,2 @@
-import UserEditing from "./userEditing";
-export default UserEditing;
+import EditUserPage from "./editUserPage";
+export default EditUserPage;

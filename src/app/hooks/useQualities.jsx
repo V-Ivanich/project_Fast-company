@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import PropTypes from "prop-types";
 import qualityService from "../services/quality.service";
-import { toast } from "react-toastify";
 
 const QualitiesContext = React.createContext();
 
@@ -10,9 +10,9 @@ export const useQualities = () => {
 };
 
 export const QualitiesProvider = ({ children }) => {
-    const [isLoading, setLoading] = useState(true);
     const [qualities, setQualities] = useState([]);
     const [error, setError] = useState(null);
+    const [isLoading, setLoading] = useState(true);
 
     useEffect(() => {
         const getQualities = async () => {
@@ -26,7 +26,6 @@ export const QualitiesProvider = ({ children }) => {
         };
         getQualities();
     }, []);
-
     const getQuality = (id) => {
         return qualities.find((q) => q._id === id);
     };
@@ -35,7 +34,6 @@ export const QualitiesProvider = ({ children }) => {
         const { message } = error.response.data;
         setError(message);
     }
-
     useEffect(() => {
         if (error !== null) {
             toast(error);
@@ -44,7 +42,13 @@ export const QualitiesProvider = ({ children }) => {
     }, [error]);
 
     return (
-        <QualitiesContext.Provider value={{ qualities, isLoading, getQuality }}>
+        <QualitiesContext.Provider
+            value={{
+                qualities,
+                getQuality,
+                isLoading
+            }}
+        >
             {children}
         </QualitiesContext.Provider>
     );

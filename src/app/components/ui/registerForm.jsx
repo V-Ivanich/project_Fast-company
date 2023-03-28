@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { validator } from "../../utils/validator";
 import TextField from "../common/form/textField";
 import SelectField from "../common/form/selectField";
@@ -6,9 +6,9 @@ import RadioField from "../common/form/radioField";
 import MultiSelectField from "../common/form/multiSelectField";
 import CheckBoxField from "../common/form/checkBoxField";
 import { useDispatch, useSelector } from "react-redux";
-import { signUp } from "../../store/users";
 import { getQualities } from "../../store/qualities";
 import { getProfessions } from "../../store/professions";
+import { signUp } from "../../store/users";
 
 const RegisterForm = () => {
     const dispatch = useDispatch();
@@ -21,19 +21,17 @@ const RegisterForm = () => {
         qualities: [],
         licence: false
     });
-
     const qualities = useSelector(getQualities());
-    const professions = useSelector(getProfessions());
-    const [errors, setErrors] = useState({});
-
     const qualitiesList = qualities.map((q) => ({
         label: q.name,
         value: q._id
     }));
+    const professions = useSelector(getProfessions());
     const professionsList = professions.map((p) => ({
         label: p.name,
         value: p._id
     }));
+    const [errors, setErrors] = useState({});
 
     const handleChange = (target) => {
         setData((prevState) => ({
@@ -41,7 +39,6 @@ const RegisterForm = () => {
             [target.name]: target.value
         }));
     };
-
     const validatorConfig = {
         email: {
             isRequired: {
@@ -56,7 +53,7 @@ const RegisterForm = () => {
                 message: "Имя обязательно для заполнения"
             },
             min: {
-                message: "Имя должено состоять минимум из 3 символов",
+                message: "Имя должно состоять минимум из 3 символов",
                 value: 3
             }
         },
@@ -68,7 +65,7 @@ const RegisterForm = () => {
                 message: "Пароль должен содержать хотя бы одну заглавную букву"
             },
             isContainDigit: {
-                message: "Должна быть хотя бы одна цифра"
+                message: "Пароль должен содержать хотя бы одно число"
             },
             min: {
                 message: "Пароль должен состоять минимум из 8 символов",
@@ -87,28 +84,25 @@ const RegisterForm = () => {
             }
         }
     };
-
     useEffect(() => {
         validate();
     }, [data]);
-
     const validate = () => {
         const errors = validator(data, validatorConfig);
         setErrors(errors);
         return Object.keys(errors).length === 0;
     };
-
     const isValid = Object.keys(errors).length === 0;
 
     const handleSubmit = (e) => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
-        const newDate = {
+        const newData = {
             ...data,
             qualities: data.qualities.map((q) => q.value)
         };
-        dispatch(signUp(newDate));
+        dispatch(signUp(newData));
     };
 
     return (
@@ -136,11 +130,11 @@ const RegisterForm = () => {
                 error={errors.password}
             />
             <SelectField
-                label="Выберите вашу профессию"
+                label="Выбери свою профессию"
+                defaultOption="Choose..."
                 options={professionsList}
                 name="profession"
                 onChange={handleChange}
-                defaultOption="Choose..."
                 value={data.profession}
                 error={errors.profession}
             />
@@ -158,21 +152,22 @@ const RegisterForm = () => {
             <MultiSelectField
                 options={qualitiesList}
                 onChange={handleChange}
+                defaultValue={data.qualities}
                 name="qualities"
                 label="Выберите ваши качества"
             />
             <CheckBoxField
                 value={data.licence}
-                onChenge={handleChange}
+                onChange={handleChange}
                 name="licence"
                 error={errors.licence}
             >
                 Подтвердить <a>лицензионное соглашение</a>
             </CheckBoxField>
             <button
+                className="btn btn-primary w-100 mx-auto"
                 type="submit"
                 disabled={!isValid}
-                className="btn btn-primary w-100 mx-auto"
             >
                 Submit
             </button>

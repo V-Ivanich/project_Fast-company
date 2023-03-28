@@ -6,7 +6,6 @@ import PropTypes from "prop-types";
 const AddCommentForm = ({ onSubmit }) => {
     const [data, setData] = useState({});
     const [errors, setErrors] = useState({});
-
     const handleChange = (target) => {
         setData((prevState) => ({
             ...prevState,
@@ -26,7 +25,6 @@ const AddCommentForm = ({ onSubmit }) => {
         setErrors(errors);
         return Object.keys(errors).length === 0;
     };
-
     const clearForm = () => {
         setData({});
         setErrors({});
@@ -38,7 +36,6 @@ const AddCommentForm = ({ onSubmit }) => {
         onSubmit(data);
         clearForm();
     };
-
     return (
         <div>
             <h2>New comment</h2>

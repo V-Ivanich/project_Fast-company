@@ -30,6 +30,8 @@ export function validator(data, config) {
                 statusValidate = data.length < config.value;
                 break;
             }
+            default:
+                break;
         }
         if (statusValidate) return config.message;
     }

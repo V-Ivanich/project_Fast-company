@@ -15,13 +15,6 @@ const userService = {
         );
         return data;
     },
-    upDateUser: async (payload) => {
-        const { data } = await httpService.put(
-            userEndpoint + payload._id,
-            payload
-        );
-        return data;
-    },
     getCurrentUser: async () => {
         const { data } = await httpService.get(
             userEndpoint + localStorageService.getUserId()
@@ -36,5 +29,4 @@ const userService = {
         return data;
     }
 };
-
 export default userService;

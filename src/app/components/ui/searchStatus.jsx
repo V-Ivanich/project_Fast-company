@@ -1,41 +1,29 @@
 import React from "react";
 import PropTypes from "prop-types";
-
-const renderPhrase = (number) => {
-    const pattern = /^[2-4]{1}$|^.{0,}[2-4][2-4]$/;
-    if (pattern.test(number)) {
-        return `${number} человека тусанет с тобой сегодня`;
-    } else {
-        return `${number} человек тусанет с тобой сегодня`;
-    }
-};
-
 const SearchStatus = ({ length }) => {
-    const backgroundColor = length > 0 ? "#ADD8E6" : "#ffa07a";
+    const renderPhrase = (number) => {
+        const lastOne = Number(number.toString().slice(-1));
+        if (number > 4 && number < 15) {
+            return "человек тусанет";
+        }
+        if (lastOne === 1) return "человек тусанет";
+        if ([2, 3, 4].indexOf(lastOne) >= 0) return "человека тусанут";
+        return "человек тусанет";
+    };
     return (
-        <span
-            className="badge mt-2 mb-1 pt-2"
-            style={{
-                background: backgroundColor,
-                color: "#6A5ACD",
-                borderBottom: "1px solid #6A5ACD"
-            }}
-        >
-            {length ? (
-                <h5>{renderPhrase(length)}</h5>
-            ) : (
-                <h5 className="mx-3">Никто не пойдет с тобой тусить</h5>
-            )}
-        </span>
+        <h2>
+            <span
+                className={"badge " + (length > 0 ? "bg-primary" : "bg-danger")}
+            >
+                {length > 0
+                    ? `${length + " " + renderPhrase(length)}   с тобой сегодня`
+                    : "Никто с тобой не тусанет"}
+            </span>
+        </h2>
     );
 };
-
 SearchStatus.propTypes = {
-    length: PropTypes.number.isRequired
-};
-renderPhrase.propTypes = {
-    number: PropTypes.number.isRequired,
-    pattern: PropTypes.symbol.isRequired
+    length: PropTypes.number
 };
 
 export default SearchStatus;

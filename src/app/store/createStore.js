@@ -1,13 +1,12 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import professionsReducer from "./professions";
 import qualitiesReducer from "./qualities";
+import professionsReducer from "./professions";
 import usersReducer from "./users";
 
 const rootReducer = combineReducers({
     qualities: qualitiesReducer,
-    users: usersReducer,
-    professions: professionsReducer
-
+    professions: professionsReducer,
+    users: usersReducer
 });
 
 export function createStore() {

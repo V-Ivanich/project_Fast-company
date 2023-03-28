@@ -13,7 +13,6 @@ const SelectField = ({
     const handleChange = ({ target }) => {
         onChange({ name: target.name, value: target.value });
     };
-
     const getInputClasses = () => {
         return "form-select" + (error ? " is-invalid" : "");
     };
@@ -49,13 +48,14 @@ const SelectField = ({
         </div>
     );
 };
+
 SelectField.propTypes = {
     defaultOption: PropTypes.string,
     label: PropTypes.string,
     value: PropTypes.string,
     onChange: PropTypes.func,
-    options: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
     error: PropTypes.string,
+    options: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
     name: PropTypes.string
 };
 

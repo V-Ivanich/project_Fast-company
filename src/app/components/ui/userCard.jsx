@@ -7,11 +7,12 @@ import { getCurrentUserId } from "../../store/users";
 const UserCard = ({ user }) => {
     const history = useHistory();
     const currentUserId = useSelector(getCurrentUserId());
+
     const handleClick = () => {
         history.push(history.location.pathname + "/edit");
     };
     return (
-        <div className=" card mb-3">
+        <div className="card mb-3">
             <div className="card-body">
                 {currentUserId === user._id && (
                     <button
@@ -38,6 +39,10 @@ const UserCard = ({ user }) => {
                                 className="bi bi-caret-down-fill text-primary"
                                 role="button"
                             ></i>
+                            <i
+                                className="bi bi-caret-up text-secondary"
+                                role="button"
+                            ></i>
                             <span className="ms-2">{user.rate}</span>
                         </div>
                     </div>
@@ -47,7 +52,7 @@ const UserCard = ({ user }) => {
     );
 };
 UserCard.propTypes = {
-    user: PropTypes.object.isRequired
+    user: PropTypes.object
 };
 
 export default UserCard;

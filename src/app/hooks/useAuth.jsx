@@ -1,16 +1,18 @@
 import React, { useContext, useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import { toast } from "react-toastify";
 import axios from "axios";
 import userService from "../services/user.service";
-import { toast } from "react-toastify";
 import localStorageService, {
-    setToken
+    setTokens
 } from "../services/localStorage.service";
 import { useHistory } from "react-router-dom";
 
 export const httpAuth = axios.create({
     baseURL: "https://identitytoolkit.googleapis.com/v1/",
-    params: { key: process.env.REACT_APP_FIREBASE_KEY }
+    params: {
+        key: process.env.REACT_APP_FIREBASE_KEY
+    }
 });
 const AuthContext = React.createContext();
 
@@ -24,14 +26,7 @@ const AuthProvider = ({ children }) => {
     const [isLoading, setLoading] = useState(true);
     const history = useHistory();
 
-    useEffect(() => {
-        if (error !== null) {
-            toast(error);
-            setError(null);
-        }
-    }, [error]);
-
-    async function singIn({ email, password }) {
+    async function logIn({ email, password }) {
         try {
             const { data } = await httpAuth.post(
                 `accounts:signInWithPassword`,
@@ -41,36 +36,33 @@ const AuthProvider = ({ children }) => {
                     returnSecureToken: true
                 }
             );
-            setToken(data);
+            setTokens(data);
             await getUserData();
         } catch (error) {
             errorCatcher(error);
             const { code, message } = error.response.data.error;
+            console.log(code, message);
             if (code === 400) {
                 switch (message) {
                     case "INVALID_PASSWORD":
-                        throw new Error("Неверный пароль или email");
-                    case "EMAIL_NOT_FOUND":
-                        throw new Error("Неверный пароль или email");
+                        throw new Error("Email или пароль введены некорректно");
+
                     default:
                         throw new Error(
-                            "Слишком много попыток входа. Попробуйте позже."
+                            "Слишком много попыток входа. Попробуйте позже"
                         );
                 }
             }
         }
     }
-
     function logOut() {
         localStorageService.removeAuthData();
         setUser(null);
         history.push("/");
     }
-
     function randomInt(min, max) {
         return Math.floor(Math.random() * (max - min + 1) + min);
     }
-
     async function updateUserData(data) {
         try {
             const { content } = await userService.update(data);
@@ -79,15 +71,14 @@ const AuthProvider = ({ children }) => {
             errorCatcher(error);
         }
     }
-
-    async function singUp({ email, password, ...rest }) {
+    async function signUp({ email, password, ...rest }) {
         try {
             const { data } = await httpAuth.post(`accounts:signUp`, {
                 email,
                 password,
                 returnSecureToken: true
             });
-            setToken(data);
+            setTokens(data);
             await createUser({
                 _id: data.localId,
                 email,
@@ -103,6 +94,7 @@ const AuthProvider = ({ children }) => {
         } catch (error) {
             errorCatcher(error);
             const { code, message } = error.response.data.error;
+            console.log(code, message);
             if (code === 400) {
                 if (message === "EMAIL_EXISTS") {
                     const errorObject = {
@@ -113,21 +105,19 @@ const AuthProvider = ({ children }) => {
             }
         }
     }
-
     async function createUser(data) {
         try {
             const { content } = await userService.create(data);
+            console.log(content);
             setUser(content);
         } catch (error) {
             errorCatcher(error);
         }
     }
-
     function errorCatcher(error) {
         const { message } = error.response.data;
         setError(message);
     }
-
     async function getUserData() {
         try {
             const { content } = await userService.getCurrentUser();
@@ -138,7 +128,6 @@ const AuthProvider = ({ children }) => {
             setLoading(false);
         }
     }
-
     useEffect(() => {
         if (localStorageService.getAccessToken()) {
             getUserData();
@@ -146,18 +135,17 @@ const AuthProvider = ({ children }) => {
             setLoading(false);
         }
     }, []);
-
+    useEffect(() => {
+        if (error !== null) {
+            toast(error);
+            setError(null);
+        }
+    }, [error]);
     return (
         <AuthContext.Provider
-            value={{
-                singUp,
-                singIn,
-                currentUser,
-                logOut,
-                updateUserData
-            }}
+            value={{ signUp, logIn, currentUser, logOut, updateUserData }}
         >
-            {!isLoading ? children : "loading..."}
+            {!isLoading ? children : "Loading..."}
         </AuthContext.Provider>
     );
 };
@@ -168,4 +156,5 @@ AuthProvider.propTypes = {
         PropTypes.node
     ])
 };
+
 export default AuthProvider;

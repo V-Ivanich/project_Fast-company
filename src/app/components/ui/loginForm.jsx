@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { validator } from "../../utils/validator";
 import TextField from "../common/form/textField";
 import CheckBoxField from "../common/form/checkBoxField";
@@ -7,16 +7,15 @@ import { useDispatch } from "react-redux";
 import { login } from "../../store/users";
 
 const LoginForm = () => {
-    const history = useHistory();
     const [data, setData] = useState({
         email: "",
         password: "",
         stayOn: false
     });
+    const history = useHistory();
     const dispatch = useDispatch();
     const [errors, setErrors] = useState({});
     const [enterError, setEnterError] = useState(null);
-
     const handleChange = (target) => {
         setData((prevState) => ({
             ...prevState,
@@ -37,11 +36,9 @@ const LoginForm = () => {
             }
         }
     };
-
     useEffect(() => {
         validate();
     }, [data]);
-
     const validate = () => {
         const errors = validator(data, validatorConfig);
         setErrors(errors);
@@ -53,13 +50,12 @@ const LoginForm = () => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
-
         const redirect = history.location.state
             ? history.location.state.from.pathname
             : "/";
+
         dispatch(login({ payload: data, redirect }));
     };
-
     return (
         <form onSubmit={handleSubmit}>
             <TextField
@@ -79,16 +75,16 @@ const LoginForm = () => {
             />
             <CheckBoxField
                 value={data.stayOn}
-                onChenge={handleChange}
+                onChange={handleChange}
                 name="stayOn"
             >
                 Оставаться в системе
             </CheckBoxField>
             {enterError && <p className="text-danger">{enterError}</p>}
             <button
+                className="btn btn-primary w-100 mx-auto"
                 type="submit"
                 disabled={!isValid || enterError}
-                className="btn btn-primary w-100 mx-auto"
             >
                 Submit
             </button>

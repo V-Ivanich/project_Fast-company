@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { displayDate } from "../../../utils/displayDate";
 import { useSelector } from "react-redux";
 import { getCurrentUserId, getUserById } from "../../../store/users";
+
 const Comment = ({
     content,
     created_at: created,
@@ -10,11 +11,11 @@ const Comment = ({
     userId,
     onRemove
 }) => {
-    const user = useSelector(getUserById(userId));
     const currentUserId = useSelector(getCurrentUserId());
+    const user = useSelector(getUserById(userId));
 
     return (
-        <div className="bg-light card-body mb-3">
+        <div className="bg-light card-body  mb-3">
             <div className="row">
                 <div className="col">
                     <div className="d-flex flex-start ">

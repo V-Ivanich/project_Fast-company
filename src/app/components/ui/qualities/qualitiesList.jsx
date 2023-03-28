@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import PropType from "prop-types";
+import PropTypes from "prop-types";
 import Quality from "./quality";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -28,7 +28,7 @@ const QualitiesList = ({ qualities }) => {
 };
 
 QualitiesList.propTypes = {
-    qualities: PropType.array
+    qualities: PropTypes.array
 };
 
 export default QualitiesList;

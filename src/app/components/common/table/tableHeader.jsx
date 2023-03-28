@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-
 const TableHeader = ({ onSort, selectedSort, columns }) => {
     const handleSort = (item) => {
         if (selectedSort.path === item) {
@@ -12,22 +11,19 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
             onSort({ path: item, order: "asc" });
         }
     };
-
-    const renderArrow = (item) => {
-        if (item && item === selectedSort.path) {
-            return (
-                <i
-                    className={`bi bi-chevron-compact-${
-                        selectedSort.order === "asc" ? "up" : "down"
-                    }`}
-                ></i>
-            );
+    const rendeSortArrow = (selectedSort, currentPath) => {
+        if (selectedSort.path === currentPath) {
+            if (selectedSort.order === "asc") {
+                return <i className="bi bi-caret-down-fill"></i>;
+            } else {
+                return <i className="bi bi-caret-up-fill"></i>;
+            }
         }
-        return "";
+        return null;
     };
 
     return (
-        <thead className="table-secondary">
+        <thead>
             <tr>
                 {Object.keys(columns).map((column) => (
                     <th
@@ -40,15 +36,14 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
                         {...{ role: columns[column].path && "button" }}
                         scope="col"
                     >
-                        {columns[column].name}
-                        {renderArrow(columns[column].path)}
+                        {columns[column].name}{" "}
+                        {rendeSortArrow(selectedSort, columns[column].path)}
                     </th>
                 ))}
             </tr>
         </thead>
     );
 };
-
 TableHeader.propTypes = {
     onSort: PropTypes.func.isRequired,
     selectedSort: PropTypes.object.isRequired,

@@ -1,9 +1,9 @@
 import React from "react";
-import QualitiesCard from "../../ui/qualitiesCard";
+import PropTypes from "prop-types";
 import UserCard from "../../ui/userCard";
+import QualitiesCard from "../../ui/qualitiesCard";
 import MeetingsCard from "../../ui/meetingsCard";
 import Comments from "../../ui/comments";
-import PropTypes from "prop-types";
 import { CommentsProvider } from "../../../hooks/useComments";
 import { useSelector } from "react-redux";
 import { getUserById } from "../../../store/users";
@@ -13,7 +13,7 @@ const UserPage = ({ userId }) => {
 
     if (user) {
         return (
-            <div className="container mt-3">
+            <div className="container">
                 <div className="row gutters-sm">
                     <div className="col-md-4 mb-3">
                         <UserCard user={user} />
@@ -29,7 +29,7 @@ const UserPage = ({ userId }) => {
             </div>
         );
     } else {
-        return <h1>Loading...</h1>;
+        return <h1>Loading</h1>;
     }
 };
 

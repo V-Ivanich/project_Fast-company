@@ -1,12 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
-import BookMark from "../common/bookMark";
-import QualitiesList from "./qualities/qualitiesList";
+
+import BookMark from "../common/bookmark";
+import Qualities from "./qualities";
 import Table from "../common/table";
 import { Link } from "react-router-dom";
 import Profession from "./profession";
 
-const UserTable = ({ users, onSort, selectedSort, onToggleBookMark }) => {
+const UserTable = ({
+    users,
+    onSort,
+    selectedSort,
+    onToggleBookMark,
+    ...rest
+}) => {
     const columns = {
         name: {
             path: "name",
@@ -15,34 +22,26 @@ const UserTable = ({ users, onSort, selectedSort, onToggleBookMark }) => {
                 <Link to={`/users/${user._id}`}>{user.name}</Link>
             )
         },
-
         qualities: {
             name: "Качества",
-            component: (user) => <QualitiesList qualities={user.qualities} />
+            component: (user) => <Qualities qualities={user.qualities} />
         },
-
-        profession: {
-            component: (user) => <Profession id={user.profession} />,
-            name: "Профессия"
+        professions: {
+            name: "Профессия",
+            component: (user) => <Profession id={user.profession} />
         },
-
         completedMeetings: {
             path: "completedMeetings",
-            name: "Встреч,кол-во"
+            name: "Встретился, раз"
         },
-
-        rate: {
-            path: "rate",
-            name: "Оценка"
-        },
-
+        rate: { path: "rate", name: "Оценка" },
         bookmark: {
             path: "bookmark",
             name: "Избранное",
             component: (user) => (
                 <BookMark
-                    onClick={() => onToggleBookMark(user._id)}
                     status={user.bookmark}
+                    onClick={() => onToggleBookMark(user._id)}
                 />
             )
         }
