@@ -23,7 +23,9 @@ const EditUserPage = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [data, setData] = useState();
     const currentUser = useSelector(getCurrentUserData());
+
     const { updateUserData } = useAuth();
+
     const qualities = useSelector(getQualities());
     const qualitiesLoading = useSelector(getQualitiesLoadingStatus());
     const qualitiesList = qualities.map((q) => ({
