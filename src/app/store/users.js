@@ -23,6 +23,10 @@ const initialState = localStorageService.getAccessToken()
           dataLoaded: false
       };
 
+const indexUser = (state) => {
+    return state.entities.findIndex((user) => user._id === state.auth.userId);
+};
+
 const usersSlice = createSlice({
     name: "users",
     initialState,
@@ -59,11 +63,7 @@ const usersSlice = createSlice({
             state.dataLoaded = false;
         },
         userUpDate: (state, action) => {
-            state.entities[
-                state.entities.findIndex(
-                    (user) => user._id === state.auth.userId
-                )
-            ] = action.payload;
+            state.entities[indexUser(state)] = action.payload;
         }
     }
 });
