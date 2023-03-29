@@ -23,6 +23,10 @@ const initialState = localStorageService.getAccessToken()
           dataLoaded: false
       };
 
+const indexUser = (state) => {
+    return state.entities.findIndex((user) => user._id === state.auth.userId);
+};
+
 const usersSlice = createSlice({
     name: "users",
     initialState,
@@ -57,6 +61,9 @@ const usersSlice = createSlice({
             state.isLoggedIn = false;
             state.auth = null;
             state.dataLoaded = false;
+        },
+        userUpDate: (state, action) => {
+            state.entities[indexUser(state)] = action.payload;
         }
     }
 });
@@ -69,12 +76,15 @@ const {
     authRequestSuccess,
     authRequestFailed,
     userCreated,
-    userLoggedOut
+    userLoggedOut,
+    userUpDate
 } = actions;
 
 const authRequested = createAction("users/authRequested");
 const userCreateRequested = createAction("users/userCreateRequested");
 const createUserFailed = createAction("users/createUserFailed");
+const userUpdateRequested = createAction("users/userUpdateRequested");
+const userUpdateFailed = createAction("users/userUpdateFailed");
 
 export const login =
     ({ payload, redirect }) =>
@@ -134,6 +144,16 @@ function createUser(payload) {
         }
     };
 }
+
+export const updateUserData = (payload) => async (dispatch) => {
+    dispatch(userUpdateRequested());
+    try {
+        const { content } = await userService.update(payload);
+        dispatch(userUpDate(content));
+    } catch (error) {
+        dispatch(userUpdateFailed(error.message));
+    }
+};
 
 export const loadUsersList = () => async (dispatch, getState) => {
     dispatch(usersRequested());
