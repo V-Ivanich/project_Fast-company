@@ -22,6 +22,7 @@ const Comments = () => {
     const comments = useSelector(getComments());
 
     const handleSubmit = (data) => {
+        console.log(data);
         createComment(data);
     };
     const handleRemoveComment = (id) => {
