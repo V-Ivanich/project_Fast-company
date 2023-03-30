@@ -156,6 +156,7 @@ function createUser(payload) {
 }
 
 export const updateUserData = (payload) => async (dispatch) => {
+    console.log(payload);
     dispatch(userUpdateRequested());
     try {
         const { content } = await userService.update(payload);
