@@ -24,7 +24,9 @@ const commentsSlice = createSlice({
         commentCreated: (state, action) => {
             state.entities.push(action.payload);
         },
-        commentRemoved: (state, action) => {}
+        commentRemoved: (state, action) => {
+            state.entities.filter((c) => c._id !== action.payload._id);
+        }
     }
 });
 
@@ -33,12 +35,14 @@ const {
     commentsRequested,
     commentsReceived,
     commentsRequestFailed,
-    commentCreated
-    // commentRemoved
+    commentCreated,
+    commentRemoved
 } = actions;
 
 const commentCreateRequested = createAction("comments/commentCreateRequested");
 const commentCreateFailed = createAction("comments/commentCreateFailed");
+const removeComentRequested = createAction("comments/removeComentRequested");
+const removeComentFailed = createAction("comments/removeComentFailed");
 
 export const loadCommentsList = (userId) => async (dispatch) => {
     dispatch(commentsRequested());
@@ -50,11 +54,9 @@ export const loadCommentsList = (userId) => async (dispatch) => {
     }
 };
 
-export const createComments =
+export const createComment =
     (payload, userId, currentId) => async (dispatch) => {
-        console.log(payload, userId, currentId);
         dispatch(commentCreateRequested());
-
         const comment = {
             ...payload,
             _id: nanoid(),
@@ -70,7 +72,15 @@ export const createComments =
         }
     };
 
-export const removeComment = () => (dispatch) => {};
+export const removeComment = (id) => async (dispatch) => {
+    dispatch(removeComentRequested());
+    try {
+        const { content } = await commentService.removeComment(id);
+        dispatch(commentRemoved(content));
+    } catch (error) {
+        dispatch(removeComentFailed(error.message));
+    }
+};
 
 export const getComments = () => (state) => state.comments.entities;
 export const getCommentsLoadingStatus = () => (state) =>
