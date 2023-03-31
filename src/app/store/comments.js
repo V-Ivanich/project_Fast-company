@@ -25,7 +25,10 @@ const commentsSlice = createSlice({
             state.entities.push(action.payload);
         },
         commentRemoved: (state, action) => {
-            state.entities.filter((c) => c._id !== action.payload._id);
+            // console.log(action.payload);
+            state.entities = state.entities.filter(
+                (c) => c._id !== action.payload
+            );
         }
     }
 });
@@ -74,9 +77,12 @@ export const createComment =
 
 export const removeComment = (id) => async (dispatch) => {
     dispatch(removeComentRequested());
+    // console.log("id-remove", id);
     try {
         const { content } = await commentService.removeComment(id);
-        dispatch(commentRemoved(content));
+        if (content === null) {
+            dispatch(commentRemoved(id));
+        }
     } catch (error) {
         dispatch(removeComentFailed(error.message));
     }
